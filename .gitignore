@@ -1,0 +1,27 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Dependency lock files
+package-lock.json
+
+# Editor-specific files
+.vscode/
+
+# Ignore specific files in client and back-end directories
+./front-end/node_modules/
+./front-end/build/
+./front-end/.env
+./front-end/package.json
+./front-end/postcss.config.js
+./front-end/tailwind.config.js
+./front-end/vite.config.js
+
+./back-end/node_modules/
+./back-end/.env
+./back-end/package.json
+
+``
+./front-end/'.eslintrc.cjs'

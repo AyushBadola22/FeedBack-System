@@ -1,0 +1,55 @@
+/* fonts link  */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Quattrocento:wght@400;700&display=swap');
+
+                
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide WebKit scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+.quatro-regular {
+  font-family: "Quattrocento", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.quatro-bold {
+  font-family: "Quattrocento", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.quatro{
+  font-family: "Quattrocento", serif;
+}
+
+.oswald {
+  font-family: "Oswald", sans-serif;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.sway-left-right {
+  animation: sway 6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.text-stroke{
+  text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 0.2px black;
+}
+
+
