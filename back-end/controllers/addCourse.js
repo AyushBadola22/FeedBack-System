@@ -1,4 +1,4 @@
-import Course from './../model/courseModel.js';
+import Course from '../model/courseModel.js';
 
 export const addCourse = async (req, res)=>{
     const {courseName, duration, subjects } = req.body;

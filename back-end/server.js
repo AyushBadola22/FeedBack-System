@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import LoginRouter from './router/loginRouter.js'; 
-import adminRouter from './router/createUserRouter.js';
+import adminRouter from './router/createUser.js';
 import courseRouter from './router/coursesRouter.js';
 
 

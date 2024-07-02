@@ -1,4 +1,4 @@
-import Admin from './../model/adminModel.js'
+import Admin from '../model/adminModel.js'
 
 const generateUID = async()=>{
     const now = new Date(); 

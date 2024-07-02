@@ -32,18 +32,6 @@ const studentSchema = new mongoose.Schema({
         type : Number, 
         default : 1
     },
-    subjects : [{
-        type : mongoose.Schema.Types.ObjectId, 
-        ref : 'Subject'
-    }], 
-    attendance : {
-        totalClasses : {
-            type : Number , default : 0
-        }, 
-        classAttended : {
-            type : Number , default : 0
-        }
-    }, 
 }); 
 
 const Student = mongoose.model('Student',studentSchema); 
