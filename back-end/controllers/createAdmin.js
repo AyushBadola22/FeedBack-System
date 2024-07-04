@@ -1,4 +1,8 @@
 import Admin from '../model/adminModel.js'
+import jwt from 'jsonwebtoken'; 
+import dotenv from 'dotenv'; 
+
+dotenv.config(); 
 
 const generateUID = async()=>{
     const now = new Date(); 
@@ -25,8 +29,17 @@ const generateUID = async()=>{
     return uid; 
 }
 
+
+
 export const createAdmin = async(req , res) =>{
     console.log("creating admin");
+   
+    let data = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
+    if(!data || data.role !== 'superadmin'){
+        return res.status(400).json({message : "You are not authorized to add another admin."}); 
+    }
+
+
     const {name , email, password , role} = req.body; 
     try{
         const existingAdmin = await Admin.findOne({email}); 
@@ -39,7 +52,13 @@ export const createAdmin = async(req , res) =>{
         
         const newAdmin = new Admin ({name, uid , email, password , role});
         await newAdmin.save(); 
-        res.status(201).send(`Admin created ${uid, password}`);
+
+        res.status(200).json({
+            msg : "Admin Created",
+            token : await newAdmin.generateToken(),
+            id : newAdmin._id.toString(), 
+            role : newAdmin.role
+        });
     }
     catch(error){
         res.status(501).send('Error creating user : '+error.message)

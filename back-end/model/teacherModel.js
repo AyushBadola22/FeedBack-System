@@ -21,12 +21,15 @@ const teacherSchema = new mongoose.Schema({
         required : true
     }, 
     section : [{
-        type : mongoose.Schema.Types.ObjectId , 
-        ref : 'Section' 
+        type : String, 
     }], 
-    subject : {
-        type : mongoose.Schema.Types.ObjectId, 
-        ref : 'Course'
+    subjectCode : {
+        type : String , 
+        required : true 
+    },  
+    role : {
+        type : String , 
+        default : "teacher"
     }
 }); 
 
@@ -45,5 +48,5 @@ teacherSchema.pre('save', async function (next){
 });
 
 
-const Teacher = mongoose.model('teacher',teacherSchema); 
+const Teacher = mongoose.model('Teacher',teacherSchema); 
 export default Teacher;

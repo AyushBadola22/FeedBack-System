@@ -22,6 +22,6 @@ router.route('/:courseID/getSubjects').get(getSubjects)
 router.route('/addCourse').post(addCourse);
 
 // PATCH Requests 
-router.route('/:courseID/addSubject').patch(addSubjectToCourse);
+router.route('/:courseID/addSubject').post(addSubjectToCourse);
 router.route('/:courseID/addSection').post(addSection);
 export default router;

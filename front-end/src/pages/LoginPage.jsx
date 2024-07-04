@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import studentImg from './../assets/collegeStudent.png';
 import logo from '../assets/gehuLogo.png';
 
@@ -14,6 +15,8 @@ export const LoginPage = () => {
 
     const [showPassword, setShowPassword] = useState(false);
 
+    const navigate = useNavigate();
+    const [error, setError] = useState(false)
     // All the handlers 
     const toggleVisibility = () => {
         setShowPassword(!showPassword);
@@ -27,12 +30,35 @@ export const LoginPage = () => {
         }));
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user);
+        setError(false);
+        try {
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+            console.log(response);
+            if (!response.ok) {
+                setError(true);
+                const errorData = await response.json();
+                console.log(response.json);
+                throw new Error(errorData.message || 'Login failed');
+            }
 
-        
+            const data = await response.json();
+            console.log(data);
+            navigate('/create/admin');
+
+        } catch (error) {
+            console.log("Error in Register : ", error);
+        }
     }
+
+
 
     return <div className='-mt-8 min-h-screen flex flex-col items-center justify-center bg-gray-100'>
 
@@ -49,13 +75,13 @@ export const LoginPage = () => {
                 {/* FORM Handling  */}
 
                 <form onSubmit={handleSubmit} className='w-full'>
-                    
+
                     {/* UID input field */}
                     <div className='mb-6'>
                         <label className='block quatro-bold text-xl text-gray-700 mb-2' htmlFor="uid">UID</label>
                         <input
                             className='shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:scale-105'
-                            type="text" name="uid" id="uid" placeholder='Enter your UID' autoComplete='off' required value={user.uid} onChange={handleInput}
+                            type="number" name="uid" id="uid" placeholder='Enter your UID' autoComplete='off' required value={user.uid} onChange={handleInput}
                         />
                     </div>
 
@@ -84,6 +110,9 @@ export const LoginPage = () => {
                             </div>
                         </div>
                     </div>
+
+                    {error && <p className="text-red-500 font-bold -mt-1 text-left">{"Invalid UID or Password"}</p>}
+
 
                     {/* Sign in button  */}
 
