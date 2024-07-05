@@ -6,6 +6,7 @@ export const addSubjectToCourse = async (req, res) => {
     const { subjectName, code, semester } = req.body;
     const { courseID } = req.params;
 
+
     if (!mongoose.Types.ObjectId.isValid(courseID)) {
         return res.status(400).json({ message: "Invalid Course ID format." });
     }
@@ -21,12 +22,16 @@ export const addSubjectToCourse = async (req, res) => {
             return res.status(404).json({ message: "Course not found" });
         }
 
+        if (!semester || semester > course.duration) {
+            return res.status(400).json({ message: "Semester is not in range." });
+        }
+
         const subjectExists = await Subject.findOne({ $or: [{ code }, { subjectName }] });
         if (subjectExists) {
             return res.status(400).json({ message: "Subject with this name or code already exists" });
         }
 
-        
+
         const newSubject = new Subject({ subjectName, code, semester, course: courseID });
         await newSubject.save();
 

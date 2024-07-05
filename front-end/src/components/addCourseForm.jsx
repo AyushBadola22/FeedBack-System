@@ -21,12 +21,11 @@ export const AddCourseForm = ({closeModel}) => {
     }
 
     const handleSubmit = async (e)=>{
-        e.preventDefault(); 
         setError({
             errorStatus : false , 
             errorMessage : "" 
         });
-        console.log(courseData);
+        // console.log(courseData);
         try {
             const response = await fetch('http://localhost:3000/courses/addCourse',{
                 method : 'POST', 
@@ -41,8 +40,12 @@ export const AddCourseForm = ({closeModel}) => {
                     errorStatus : true, 
                     message : response.json()
                 })
+            }else {
+                closeModel()
             }
-            closeModel();
+
+            
+            
         } catch (error) {
             setError({
                 errorStatus : true  , 
@@ -56,7 +59,7 @@ export const AddCourseForm = ({closeModel}) => {
     return (
         <>
             {/* Background overlay */}
-            <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center'>
+            <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center transition-all ease-in-out'>
                 {/* Form container */}
                 <div className='bg-white p-6 rounded-lg shadow-md w-full max-w-md'>
                     <form onSubmit={handleSubmit}>
@@ -68,7 +71,7 @@ export const AddCourseForm = ({closeModel}) => {
                             <input
                                 type="text"
                                 id="courseName"
-                                className="px-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none"
+                                className="px-2 mt-1 block w-full rounded-md border-orange-100 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none border-2 focus:border-none transition-all ease-in-out transition:focus"
                                 name='courseName'
                                 required
                                 onChange={handleChange}
@@ -82,7 +85,7 @@ export const AddCourseForm = ({closeModel}) => {
                             <input
                                 type="number"
                                 id="duration"
-                                className="px-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none"
+                                className="px-2 mt-1 block w-full rounded-md border-orange-100 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none border-2 focus:border-none transition-all ease-in-out transition:focus"
                                 required
                                 name='duration'
                                 onChange={handleChange}
@@ -109,7 +112,7 @@ export const AddCourseForm = ({closeModel}) => {
     
                         {/* Error message */}
                         {errorOccured.errorStatus && 
-                            <p className='font-bold mt-5 text-red-500 block w-full'>Something went Wrong</p>
+                            <p className='font-bold mt-5 text-red-500 block w-full'>Something went Wrong. <br /> Ensure that course doesn't already exists.</p>
                         }
                     </form>
                 </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaUsers, FaUserGraduate, FaChalkboardTeacher, FaBook } from 'react-icons/fa';
 
-export const NavBar = () => {
+export const NavBar = ({ setActiveTab, activeTab }) => {
     return (
         <nav className="sticky top-0 bg-background text-primary shadow-md z-10">
             <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
@@ -12,28 +12,40 @@ export const NavBar = () => {
 
                 <ul className='flex space-x-4'>
                     <li>
-                        <a href="/getAllCourses" className="flex items-center bg-primary text-white font-bold px-3 py-1 rounded-full shadow-sm">
+                        <button 
+                            onClick={() => setActiveTab('courses')}
+                            className={`flex items-center font-bold px-3 py-1 rounded-full shadow-sm ${activeTab === 'courses' ? 'bg-white text-primary ring-2 ring-orange-500' : 'bg- bg-primary text-white'}  hover:opacity-85 hover:scale-110 transition-all ease-in-out delay-75 hover:shadow-lg`}
+                        >
                             <FaBook className="mr-2" />
                             <h3>Courses</h3>
-                        </a>
+                        </button>
                     </li>
                     <li>
-                        <a href="/getStudents" className="flex items-center bg-primary text-white font-bold px-3 py-1 rounded-full shadow-sm">
+                        <button 
+                            onClick={() => setActiveTab('students')}
+                            className={`flex items-center font-bold px-3 py-1 rounded-full shadow-sm ${activeTab === 'students' ? 'bg-white text-primary ring-2 ring-orange-500' : 'bg- bg-primary text-white'}  hover:opacity-85  hover:scale-110 transition-all ease-in-out delay-75 hover:shadow-lg`}
+                        >
                             <FaUserGraduate className="mr-2" />
                             <h3>Students</h3>
-                        </a>
+                        </button>
                     </li>
                     <li>
-                        <a href="/getTeachers" className="flex items-center bg-primary text-white font-bold px-3 py-1 rounded-full shadow-sm">
+                        <button 
+                            onClick={() => setActiveTab('teachers')}
+                            className={`flex items-center font-bold px-3 py-1 rounded-full shadow-sm ${activeTab === 'teachers' ? 'bg-white text-primary ring-2 ring-orange-500' : 'bg- bg-primary text-white'}  hover:opacity-85  hover:scale-110 transition-all ease-in-out delay-75 hover:shadow-lg`}
+                        >
                             <FaChalkboardTeacher className="mr-2" />
                             <h3>Teachers</h3>
-                        </a>
+                        </button>
                     </li>
                     <li>
-                        <a href="/reported" className="flex items-center bg-primary text-white font-bold px-3 py-1 rounded-full shadow-sm">
+                        <button 
+                            onClick={() => setActiveTab('reported')}
+                            className={`flex items-center font-bold px-3 py-1 rounded-full shadow-sm ${activeTab === 'reported' ? 'bg-white text-primary ring-2 ring-orange-500' : 'bg- bg-primary text-white'}  hover:opacity-85  hover:scale-110 transition-all ease-in-out delay-75 hover:shadow-lg`}
+                        >
                             <FaUsers className="mr-2" />
                             <h3>Reported</h3>
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>

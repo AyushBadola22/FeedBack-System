@@ -14,9 +14,11 @@ export const getCourses = async (req, res) => {
         let coursesData = courses.map(course => ({
             courseName: course.courseName, 
             semester: course.duration,
-            totalSections: course.sections ? course.sections.length : 0,
-            totalSubjects: course.subjects ? course.subjects.length : 0
+            sections: course.sections ? course.sections : [],
+            subjects: course.subjects ? course.subjects : [], 
+            _id : course._id 
         }));
+
         res.status(200).json({ courses: coursesData }); 
     } catch (error) {
         console.log(error.message);

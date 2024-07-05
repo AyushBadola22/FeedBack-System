@@ -25,7 +25,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-app.use('/create', isLoggedIn, hasRole('admin', "superadmin"), createUser); 
+app.use('/create', isLoggedIn, hasRole(["admin", "superadmin"]), createUser); 
 app.use('/courses', courseRouter); 
 app.use('/', authRouter);
 

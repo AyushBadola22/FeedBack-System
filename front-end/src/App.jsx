@@ -9,7 +9,7 @@ const App = ()=>{
   return <>
     <BrowserRouter>
       <Routes>
-        <Route path = "/create/admin" element = {<AdminPage/>} />
+        <Route path = "/admin" element = {<AdminPage/>} />
         <Route path = "/home" element ={<HomePage/>} /> 
         <Route path = "/login" element ={<LoginPage/>} />
         <Route path = "*" element = {<ErrorPage/>} />

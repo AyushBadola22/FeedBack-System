@@ -11,9 +11,7 @@ export const fetchCourses = async () => {
         }
         
         const data = await response.json();
-       
-    
-        console.log("Data  : "+data);
+        console.log("Data  : "+JSON.stringify(data));
         return data;
     } catch (error) {
         console.error('Error fetching courses:', error.message);

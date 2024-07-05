@@ -7,9 +7,9 @@ export const CourseTable = ({ courses }) => {
           className="border-b bg-primary font-medium text-white">
           <tr className="">
             <th scope="col" className=" px-6 py-4">Course Name</th>
-            <th scope="col" className=" px-6 py-4">Semesters</th>
-            <th scope="col" className=" px-6 py-4">Subjects</th>
-            <th scope="col" className=" px-6 py-4">Sections</th>
+            <th scope="col" className=" px-6 py-4">Total Semesters</th>
+            <th scope="col" className=" px-6 py-4">Total Subjects</th>
+            <th scope="col" className=" px-6 py-4">Total Sections</th>
           </tr>
         </thead>
         <tbody>
@@ -22,15 +22,14 @@ export const CourseTable = ({ courses }) => {
               <tr key={index} className="bg-gray-50" >
                 <td className="whitespace-nowrap  border-2 border-l-orange-900 px-6 py-4 font-medium">{course.courseName}</td>
                 <td className="whitespace-nowrap  border-2 border-l-orange-900 px-6 py-4">{course.semester}</td>
-                <td className="whitespace-nowrap  border-2 border-l-orange-900 px-6 py-4">{(course.subjects) ? course.subjects : 0}</td>
-                <td className="whitespace-nowrap border-2 px-6 py-4">{(course.sections) ? course.sections : 0}</td>
+                <td className="whitespace-nowrap  border-2 border-l-orange-900 px-6 py-4">{(course.subjects) ? course.subjects.length : 0}</td>
+                <td className="whitespace-nowrap border-2 px-6 py-4">{(course.sections) ? course.sections.length : 0}</td>
               </tr>
             ))
           )}
         </tbody>
       </table>
 
-     
     </div>
   );
 };
