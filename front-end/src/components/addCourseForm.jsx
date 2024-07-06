@@ -25,9 +25,9 @@ export const AddCourseForm = ({closeModel}) => {
             errorStatus : false , 
             errorMessage : "" 
         });
-        // console.log(courseData);
+        console.log(courseData);
         try {
-            const response = await fetch('http://localhost:3000/courses/addCourse',{
+            const response = await fetch('http://localhost:3000/admin/addCourse',{
                 method : 'POST', 
                 headers : {
                     'Content-Type' : 'application/json'

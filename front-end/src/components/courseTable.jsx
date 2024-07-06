@@ -1,15 +1,21 @@
 export const CourseTable = ({ courses }) => {
+  courses = courses.sort((a, b)=>{
+    if(a.courseName > b.courseName) return 1; 
+    if(a.courseName < b.courseName) return -1;
+    return 0 
+  })
+
   return (
     <div className="overflow-x-auto">
       <h3 className="text-center font-bold underline underline-offset-4 text-7xl mt-5 text-primary mb-5">Courses</h3>
      <table className="min-w-full text-center text-md font-light">
         <thead
           className="border-b bg-primary font-medium text-white">
-          <tr className="">
-            <th scope="col" className=" px-6 py-4">Course Name</th>
-            <th scope="col" className=" px-6 py-4">Total Semesters</th>
-            <th scope="col" className=" px-6 py-4">Total Subjects</th>
-            <th scope="col" className=" px-6 py-4">Total Sections</th>
+          <tr className="uppercase">
+            <th scope="col" className=" px-6 py-4 border-x-2 border-gray">Course Name</th>
+            <th scope="col" className=" px-6 py-4 border-x-2 border-gray">Total Semesters</th>
+            <th scope="col" className=" px-6 py-4 border-x-2 border-gray">Total Subjects</th>
+            <th scope="col" className=" px-6 py-4 border-x-2 border-gray">Total Sections</th>
           </tr>
         </thead>
         <tbody>

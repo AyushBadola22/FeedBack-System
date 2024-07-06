@@ -32,7 +32,7 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
         });
 
         try {
-            const response = await fetch(`http://localhost:3000/courses/${subjectData.courseID}/addSubject`, {
+            const response = await fetch(`http://localhost:3000/admin/${subjectData.courseID}/addSubject`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

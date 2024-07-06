@@ -1,6 +1,6 @@
-export const fetchCourses = async () => {
+export const fetchTeachers = async () => {
     try {
-        const response = await fetch('http://localhost:3000/admin/allCourses', {
+        const response = await fetch('http://localhost:3000/admin/getTeachers', {
             method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',
@@ -10,9 +10,9 @@ export const fetchCourses = async () => {
             throw new Error('Error fetching the courses');
         }
         
-        const data = await response.json();
-        // console.log("Data  : "+JSON.stringify(data));
-        return data;
+        let data = await response.json();
+        return data.teachers; 
+        
     } catch (error) {
         console.error('Error fetching courses:', error.message);
         throw error;

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import studentImg from './../assets/collegeStudent.png';
 import logo from '../assets/gehuLogo.png';
 
-import { FaCreativeCommonsNcJp, FaEye, FaEyeSlash } from 'react-icons/fa';
+import {  FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export const LoginPage = () => {
 
@@ -51,7 +51,10 @@ export const LoginPage = () => {
 
             const data = await response.json();
             console.log(data);
-            navigate('/create/admin');
+            if(data.role === 'superadmin' || data.role === 'admin')
+                navigate('/admin')
+             else 
+                navigate('/home');
 
         } catch (error) {
             console.log("Error in Register : ", error);
