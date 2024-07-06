@@ -9,7 +9,7 @@ export const getSubjects = async(req, res)=>{
             return res.status(200).json({message : "Course doesnt exist"}); 
         } 
         if(!course.subjects || course.subjects.length === 0){
-            res.status(200).json({message : "No Subject is added."}); 
+            return res.status(200).json({message : "No Subject is added."}); 
         }
 
         const subjects = await Subject.find({_id : { $in : course.subjects}}); 
@@ -21,12 +21,16 @@ export const getSubjects = async(req, res)=>{
         const subjectData = subjects.map(subject =>({
             name : subject.subjectName, 
             code : subject.code, 
-            semester : subject.semester
+            semester : subject.semester, 
+            _id : subject._id
         })); 
         res.status(200).json({subjects : subjectData}); 
     }
     catch(error){
         console.log(error.message);
-        res.status(500).send("Internal error"); 
+        res.status(500).json({message : "Internal error"}); 
     }
-}
+}; 
+
+
+

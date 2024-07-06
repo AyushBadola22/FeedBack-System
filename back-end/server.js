@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRouter from './router/auth-router.js'; 
 import createUser from './router/createUser.js';
-import courseRouter from './router/coursesRouter.js';
+import adminRouter from './router/adminRouter.js';
 import cookieParser from 'cookie-parser';
 import isLoggedIn from './middlewares/isLoggedIn.js';
 import hasRole from './middlewares/hasRole.js';
@@ -25,8 +25,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-app.use('/create', isLoggedIn, hasRole(["admin", "superadmin"]), createUser); 
-app.use('/courses', courseRouter); 
+app.use('/create',  createUser); 
+app.use('/admin', adminRouter); 
 app.use('/', authRouter);
 
 connectDB().then(()=>{

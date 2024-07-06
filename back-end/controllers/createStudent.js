@@ -24,8 +24,8 @@ const generateUID = async()=>{
             isUnique = true;
         } else {
             uid += 7;
-            if (uid >= 20000000) {
-                uid = 10000000+(uid % 20000000);
+            if (uid >= 30000000) {
+                uid = 20000000+(uid % 30000000);
             }
         }
     }

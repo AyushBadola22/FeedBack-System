@@ -4,12 +4,15 @@ import mongoose from "mongoose";
 export const getSections = async (req, res) => {
     
     const { courseID } = req.params;
+
     if (!mongoose.Types.ObjectId.isValid(courseID)) {
         return res.status(400).json({message : "Invalid course ID format"});
     }
-    
+    console.log("getting sections");
     try {
+        // console.log(courseID);
         const course = await Course.findById(courseID); 
+        console.log(course);
         if (!course) {
             return res.status(404).json({message : "Course doesn't exist"});
         }
@@ -33,3 +36,23 @@ export const getSections = async (req, res) => {
         res.status(500).json({message : "Internal server error"});
     }
 };
+
+
+
+export const getSectionByID = async(req , res)=>{
+    const {id } = req.params; 
+    console.log(req.params);
+    try {
+        if(!id ){
+            return res.status(400).json({ message: "Section ID is required." });
+        }
+        const sectionExists = await Section.findById(id ); 
+        if(!sectionExists){
+            return res.status(400).json({message : "Section doesnt exists"}); 
+        }  
+        return res.status(200).json({section : sectionExists.sectionCode, semester : sectionExists.semester}); 
+    } catch (error) {
+        console.error('Error fetching section:', error);
+        return res.status(500).json({ message: "Internal server error." });
+    } 
+}

@@ -26,7 +26,8 @@ export const addSection = async (req , res) =>{
         if(sectionExists){
             return res.status(400).json({message : "Section already exists"}); 
         }
-        const newSection = new Section({sectionCode , semester , course : courseID});
+
+        const newSection = new Section({sectionCode , semester , course : courseID, teachers : []});
         await newSection.save();
 
 

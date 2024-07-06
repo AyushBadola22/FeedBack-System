@@ -5,9 +5,9 @@ import { addSubjectToCourse } from '../controllers/addSubject.js';
 import { addSection } from '../controllers/addSection.js';
 // get imports 
 import { getCourses } from '../controllers/getCourses.js';
-import { getSections } from '../controllers/getSections.js';
+import { getSections , getSectionByID} from '../controllers/getSections.js';
 import { getSubjects } from '../controllers/getSubjects.js';
- 
+import { getTeachers } from '../controllers/getTeachers.js';
 
 const router = express.Router();
 
@@ -16,7 +16,8 @@ const router = express.Router();
 router.route('/allCourses').get(getCourses);
 router.route('/:courseID/getSections').get(getSections);
 router.route('/:courseID/getSubjects').get(getSubjects)
-
+router.route('/getTeachers').get(getTeachers); 
+router.route('/sections/:id').get(getSectionByID)
 
 //POST Requests
 router.route('/addCourse').post(addCourse);

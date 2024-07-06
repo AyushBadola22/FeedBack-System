@@ -39,7 +39,8 @@ export const loginController = async (req, res) => {
                 message : "Login Successful", 
                 token : token, 
                 uid : user.uid , 
-                id : user._id
+                id : user._id,
+                role : user.role
             });
         }
     } catch (error) {

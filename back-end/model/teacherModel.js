@@ -21,11 +21,24 @@ const teacherSchema = new mongoose.Schema({
         required : true
     }, 
     section : [{
-        type : String, 
+        name : {
+            type : String
+        }, 
+        id : {
+            type : mongoose.Schema.Types.ObjectId, 
+            ref : "Section"
+        }
     }], 
-    subjectCode : {
-        type : String , 
-        required : true 
+    subject : {
+        name : {
+            type : String, 
+            required : true
+        }, 
+        id : {
+            type : mongoose.Schema.Types.ObjectId, 
+            ref : 'Subject', 
+            required :true 
+        },
     },  
     role : {
         type : String , 
