@@ -20,13 +20,14 @@ export const getSections = async (req, res) => {
         if (!course.sections || course.sections.length === 0) {
             return res.status(200).json({message : "No sections are created for this course yet."});
         }
-
+        
         const sections = await Section.find({_id : { $in : course.sections}}); 
         
         if(sections.length === 0){
             return  res.status(200).json({message : "No sections exists yet"}); 
         }
 
+        console.log(sections);
         // const sectionsCodes = sections.map(section => section.sectionCode); 
         // returns the section codes of course 
 
@@ -38,7 +39,7 @@ export const getSections = async (req, res) => {
 };
 
 
-
+// !  Its for taking data of particular section. 
 export const getSectionByID = async(req , res)=>{
     const {id } = req.params; 
     console.log(req.params);

@@ -1,38 +1,44 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 const studentSchema = new mongoose.Schema({
-    name : {
-        type : String , 
+    name: {
+        type: String,
+        required: true
+    },
+    uid: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    section: {
+        code: { type: String, required: true },
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Section' }
+    },
+    course: {
+        name: { type: String, required: true },
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true }
+    },
+    semester: {
+        type: Number,
+        default: 1
+    },
+    yearOfJoining : {
+        type : Number , 
         required : true
     },
-    uid : {
-        type : String, 
-        required : true
-    } ,
-    email : {
-        type : String , 
-        required : true, 
-        unique : true 
-    },
-    password : {
-        type : String , 
-        required : true
-    }, 
-    section : {
-        type : mongoose.Schema.Types.ObjectId , 
-        ref : 'Section', 
-        default : "Not assigned"
-    }, 
-    course : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Course', 
-        required : true
-    }, 
-    semester : {
-        type : Number, 
-        default : 1
-    },
-}); 
+    feedbackGiven: {
+        status : {type : Boolean , default : false}, 
+        id : {type : mongoose.Schema.Types.ObjectId , ref : 'Feedback'}
+    }
+});
 
 studentSchema.pre('save', async function (next) {
     const user = this;
@@ -67,5 +73,5 @@ studentSchema.methods.generateToken = async function () {
     }
 }
 
-const Student = mongoose.model('Student',studentSchema); 
+const Student = mongoose.model('Student', studentSchema);
 export default Student;

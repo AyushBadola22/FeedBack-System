@@ -9,12 +9,16 @@ import { AddSubjectForm } from '../components/addSubject';
 import { TeacherTable } from '../components/teacherTable';
 import { fetchTeachers } from '../services/fetchTeachers';
 import { AddTeacherForm } from '../components/addTeacherForm';
+import { StudentTable } from '../components/studentTable';
+import Select from 'react-select';
+import { AddStudentForm } from '../components/addStudentForm';
 
 export const AdminPage = () => {
 
     const [activeTab, setActiveTab] = useState('courses');
     const [courses, setCourses] = useState([]);
     const [teachers, setTeachersData] = useState([])
+    const [students, setStudentsData] = useState([])
 
     //-------------------------------------------------------------------//
     // ---------------   Courses Tab logic -----------------------------//
@@ -30,8 +34,75 @@ export const AdminPage = () => {
     const showSectionForm = () => setSectionModel(true);
     const closeSectionForm = () => setSectionModel(false);
 
+    //-------------------------------------------------------------------//
+    // ---------------   Teacher Tab logic -----------------------------//
+    const [showTeacherModel, setTeacherModel] = useState(false);
+    const showTeacherForm = () => setTeacherModel(true);
+    const hideTeacherForm = () => setTeacherModel(false);
+
+    //-------------------Teacher Tab Logic Ended --------------------//
+
+    //-------------------------------------------------------------------//
+    // ---------------   Student Tab logic -----------------------------//
+    const [showStudentModel, setStudentModel] = useState(false);
+    const showStudentForm = () => setStudentModel(true);
+    const hideStudentForm = () => setStudentModel(false);
+    const [selectedYear, setSelectedYear] = useState(null);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+
+    const handleYearChange = (selectedOptions) => {
+        setSelectedYear(selectedOptions);
+        // if(selectedCourse){
+        //     fetchStudents(selectedCourse.value, selectedOptions.value); 
+        // }
+    };
+
+    const handleCourseChange = (selectedOption) => {
+        setSelectedCourse(selectedOption);
+        setSelectedYear(null);
+    };
+
+    //-------------------Student Tab Logic Ended --------------------//
+
+
+    const getYears = (startYear) => {
+        let years = [];
+        if (!startYear) startYear = 2015;
+        for (let year = startYear; year <= new Date().getFullYear(); year++) {
+            years.push({ value: year, label: year.toString() });
+        }
+        return years;
+    }
+
+
+    // !  fetch teacher , students , courses here 
+    const fetchStudents = async (courseID , year) => {
+        console.log('fetching students');
+        if(!courseID || !year ) return; 
+        try {
+            const response = await fetch(`http://localhost:3000/admin/getStudents/${courseID}/${year}`, {
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            }); 
+            console.log(response);
+            if(!response.ok){
+                console.log("Error fetching data");
+                setStudentsData([]);
+            }
+            const data = await response.json(); 
+            // console.log(data);
+            setStudentsData(data); 
+        } catch (error) {
+            console.log('Error fetching students :'+error);
+            setStudentsData([]); 
+        }
+    }
+
+
     useEffect(() => {
         const getCourses = async () => {
+            console.log('fetching courses');
             try {
                 const data = await fetchCourses();
                 setCourses(data.courses || []);
@@ -42,16 +113,17 @@ export const AdminPage = () => {
         };
 
         const getTeachers = async () => {
+            console.log("fetching teachers");
             try {
                 const response = await fetchTeachers();
-                console.log("Response:", response);
+                // console.log("Response:", response);
 
                 if (response) {
                     const teachersArray = response.map(teacher => ({
                         uid: teacher.uid,
                         name: teacher.name,
                         email: teacher.email,
-                        section: teacher.section || [],
+                        section: teacher.sections || [],
                         subject: teacher.subject,
                         _id: teacher._id
                     }));
@@ -72,43 +144,43 @@ export const AdminPage = () => {
         } else if (activeTab === 'teachers') {
             getTeachers();
             getCourses();
-            const intervalId = setInterval(getCourses, 60000);
-            return () => clearInterval(intervalId);
+
         }
-    }, [activeTab]);
+        else if (activeTab === 'students') {
+            getCourses();
+            console.log(courses);
+            let coursesList = courses.map((course) => {
+                return {
+                    value: course._id,
+                    label: course.courseName
+                }
+            })
+            setCourses(coursesList);
+            if(selectedYear && selectedCourse){
+                fetchStudents(selectedCourse.value, selectedYear.value);
+                console.log(students);
+            }
+        }
 
-    //---------------------- Course Tab Logic Ended --------------------//
+    }, [activeTab, showTeacherModel, selectedCourse, selectedYear /*showStudentModel*/]);
 
 
-    //-------------------------------------------------------------------//
-    // ---------------   Teacher Tab logic -----------------------------//
-    const [showTeacherModel, setTeacherModel] = useState(false);
-    const showTeacherForm = () => setTeacherModel(true);
-    const hideTeacherForm = () => setTeacherModel(false);
-
-    //-------------------Teacher Tab Logic Ended --------------------//
-   
-    //-------------------------------------------------------------------//
-    // ---------------   Student Tab logic -----------------------------//
-    const [showStudentModel, setStudentModel] = useState(false);
-    const showStudentForm = () => setStudentModel(true);
-    const hideStudentForm = () => setStudentModel(false);
-    //-------------------Student Tab Logic Ended --------------------//
-
+    // * All tabs that will be renderd if i click a button at nav bar.
     const renderContent = () => {
         switch (activeTab) {
             case 'courses':
                 return <CourseTable courses={courses} />;
             case 'students':
-                return <h1>StudentTable</h1>;
+                return <StudentTable students={students || []}  />;
             case 'teachers':
-                return <TeacherTable courses={courses} teachers={teachers} />;
+                return <TeacherTable teachers={teachers} />;
             case 'reported':
                 return <h1>Reported table</h1>;
             default:
                 return <CourseTable courses={courses} />;
         }
     };
+    // * render ended ***************************************************
 
     return (
         <>
@@ -163,12 +235,58 @@ export const AdminPage = () => {
 
             }
 
+
+            {
+                activeTab === 'students' &&
+                <div>
+                    <div className='fixed w-1/4 left-5 top-24'>
+                        <div className='flex space-x-4'>
+                            <Select
+                                placeholder='Select Course'
+                                id="selectedCourse"
+                                onChange={handleCourseChange}
+                                options={courses.map(course => ({ value: course._id, label: course.courseName }))}
+                                value={selectedCourse}
+                                noOptionsMessage={() => "No course has been added yet"}
+                                className="shadow-md shadow-cyan-200 rounded-md  w-1/2 hover:ring-2 hover:border-cyan-300 hover:scale-105 transition-all ease-in-out duration-150 "
+                            />
+                            <Select
+                                placeholder='Select Year'
+                                id="selectedYear"
+                                value={selectedYear}
+                                options={getYears(2020)}
+                                onChange={handleYearChange}
+                                noOptionsMessage={() => "No year has been added yet"}
+                                className="shadow-md shadow-cyan-200 rounded-md outline-none w-1/2 hover:ring-2 hover:border-cyan-300 hover:scale-105 transition-all ease-in-out duration-150  "
+                            />
+                        </div> {/* options , value , onChange  */}
+                    </div>
+
+
+
+                    <div className="fixed bottom-8 left-10 flex space-x-4">   
+                        {/* Add Student Button */}
+                        <button
+                       
+                            className="shadow-lg bg-primary font-bold text-white rounded-full px-3 py-1 uppercase flex gap-2 text-sm justify-center items-center hover:opacity-80 hover:bg-white hover:text-primary hover:ring-2 hover:ring-orange-400 ease-in-out transition-all hover:shadow-lg hover:delay-75"
+                            onClick={showStudentForm}
+                        >
+                            Add Student <IoIosAddCircle className='hover:transform hover:transition-transform duration-75 hover:rotate-180 hover:scale-110' size={20} />
+                        </button>
+                    </div>
+                </div>
+
+
+            }
+
+
             {showCoursesModel && <AddCourseForm closeModel={closeModel} />}
             {showSectionModel && <AddSectionForm closeSectionModel={closeSectionForm} courses={courses} />}
             {showSubjectModel && <AddSubjectForm closeSubjectModel={closeSubjectForm} courses={courses} />}
 
-            {showTeacherModel && <AddTeacherForm courses={courses} onCancel={hideTeacherForm} /> }
+            {showTeacherModel && <AddTeacherForm courses={courses} onCancel={hideTeacherForm} />}
 
+            {showStudentModel && <AddStudentForm onCancel={hideStudentForm}/>}
         </>
     );
 }

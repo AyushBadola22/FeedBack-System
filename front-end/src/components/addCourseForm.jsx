@@ -16,7 +16,7 @@ export const AddCourseForm = ({closeModel}) => {
 
         setCourseData(prevData => ({
             ...prevData, 
-            [name] : value
+            [name]: name === 'courseName' ? value.toUpperCase() : value
         }))
     }
 
@@ -25,7 +25,8 @@ export const AddCourseForm = ({closeModel}) => {
             errorStatus : false , 
             errorMessage : "" 
         });
-        console.log(courseData);
+        console.log(JSON.stringify(courseData));
+
         try {
             const response = await fetch('http://localhost:3000/admin/addCourse',{
                 method : 'POST', 
@@ -42,9 +43,7 @@ export const AddCourseForm = ({closeModel}) => {
                 })
             }else {
                 closeModel()
-            }
-
-            
+            }        
             
         } catch (error) {
             setError({
@@ -71,7 +70,7 @@ export const AddCourseForm = ({closeModel}) => {
                             <input
                                 type="text"
                                 id="courseName"
-                                className="px-2 mt-1 block w-full rounded-md border-orange-100 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none border-2 focus:border-none transition-all ease-in-out transition:focus"
+                                className="uppercase px-2 mt-1 block w-full rounded-md border-orange-100 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none border-2 focus:border-none transition-all ease-in-out transition:focus"
                                 name='courseName'
                                 required
                                 onChange={handleChange}

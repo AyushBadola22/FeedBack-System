@@ -1,21 +1,21 @@
 import Student from '../model/studentModel.js'
 import Course from '../model/courseModel.js'
 import Section from '../model/sectionModel.js'
-import dotenv from 'dotenv'; 
-import jwt from 'jsonwebtoken'; 
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 
-dotenv.config(); 
+dotenv.config();
 
-const generateUID = async()=>{
-    const now = new Date(); 
-    
-    const prefix = '20'; 
-    const day = String(now.getDate()).padStart(2,'0'); 
-    const year = String(now.getFullYear()).slice(2); 
-    const hour = String(now.getHours()).padStart(2,'0'); 
-    let uid = Number( prefix+year+day+hour);
-    
+const generateUID = async () => {
+    const now = new Date();
+
+    const prefix = '20';
+    const day = String(now.getDate()).padStart(2, '0');
+    const year = String(now.getFullYear()).slice(2);
+    const hour = String(now.getHours()).padStart(2, '0');
+    let uid = Number(prefix + year + day + hour);
+
     let isUnique = false;
 
     while (!isUnique) {
@@ -25,46 +25,52 @@ const generateUID = async()=>{
         } else {
             uid += 7;
             if (uid >= 30000000) {
-                uid = 20000000+(uid % 30000000);
+                uid = 20000000 + (uid % 30000000);
             }
         }
     }
-    return uid; 
+    return uid;
 }
 
-export const createStudent = async(req , res) =>{
+export const createStudent = async (req, res) => {
     console.log("creating student");
 
-    let data = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
-    // console.log(JSON.stringify(data));  prints my token details
+    // let data = jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
 
-    if(!data || data.role !== 'superadmin'){
-        return res.status(400).json({message : "You are not authorized to add another admin."}); 
-    }
+    // if (!data || data.role !== 'superadmin' || data.role != 'admin') {
+    //     return res.status(400).json({ message: "You are not authorized to add another admin." });
+    // }
 
-    const {name , email, password , course, section, semester} = req.body; 
-    try{
-        const existingStudent = await Student.findOne({email}); 
-        if(existingStudent){
-           return res.status(400).json({message : "This email already exists."}); 
-        } 
-        const courseExists = await Course.findOne({courseName : course}); 
-        const sectionExists = await Section.findOne({sectionCode : section}); 
-        
-        if(!courseExists || !sectionExists){
-            return res.status(400).json({message : "Course or section does not exist"}); 
+    const { name, email, password, courseID, sectionID, semester, yearOfJoining } = req.body;
+    try {
+        const existingStudent = await Student.findOne({ name, email });
+        if (existingStudent) {
+            return res.status(400).json({ message: "This email already exists." });
+        }
+
+        const courseExists = await Course.findById(courseID);
+        const sectionExists = await Section.findById(sectionID);
+
+        if (!courseExists || !sectionExists) {
+            return res.status(400).json({ message: "Course or section does not exist" });
         }
 
         const uid = await generateUID();
 
-        console.log(course);
-        console.log(section);
-
-        const newStudent = new Student ({name, uid , email, password , section : sectionExists._id, course : courseExists._id, semester});
-        await newStudent.save(); 
-        res.status(201).json({message : 'Student created'}); 
+        const newStudent = new Student({
+            name, uid, email, password,semester, yearOfJoining,
+            section: {
+                code: sectionExists.sectionCode,
+                id: sectionExists._id
+            }, course: {
+                name: courseExists.courseName,
+                id: courseExists._id
+            },
+        });
+        await newStudent.save();
+        res.status(201).json(newStudent);
     }
-    catch(error){
-        res.status(501).json({message : 'Error creating user : '+error.message}); 
+    catch (error) {
+        res.status(501).json({ message: 'Error creating user : ' + error.message });
     }
 };

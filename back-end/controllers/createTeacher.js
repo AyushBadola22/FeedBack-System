@@ -29,7 +29,7 @@ const generateUID = async () => {
 }
 
 export const createTeacher = async (req, res) => {
-    console.log("creating teacher user");
+    console.log("creating teacher user");``
     const { name, email, password, subjectID, sections } = req.body;
 
     sections.map((id) => {
@@ -61,7 +61,7 @@ export const createTeacher = async (req, res) => {
                 sectionData.push({
                     name: section.sectionCode,
                     id: section._id
-                });
+                });                
             }
         }
         console.log(sections);
@@ -78,6 +78,15 @@ export const createTeacher = async (req, res) => {
             subject : subjectData
         });
         await newTeacher.save();
+
+        for (const section of sectionData) {
+            await Section.findByIdAndUpdate(
+                section.id,
+                { $addToSet: { teachers: newTeacher._id } },
+                { new: true }
+            );
+        }
+
         res.status(200).json({message : "Teacher Created", data : newTeacher}); 
     }
     catch (error) {

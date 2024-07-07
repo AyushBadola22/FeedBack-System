@@ -14,6 +14,7 @@ export const getTeachers = async (req, res) => {
             name : teacher.name,
             email : teacher.email,
             subject : teacher.subject,
+            sections : teacher.section,            
             _id : teacher._id
         }));
 

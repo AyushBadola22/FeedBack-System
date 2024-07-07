@@ -19,7 +19,7 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
         const { name, value } = e.target;
         setSectionData(prevData => ({
             ...prevData,
-            [name]: value
+            [name]: name === 'subjectName' || name === 'code' ? value.toUpperCase() : value
         }));
     };
 
@@ -70,7 +70,7 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
             <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center transition-all ease-in-out'>
                 <div className='bg-white p-6 rounded-lg shadow-md w-full max-w-md'>
                     <form onSubmit={handleSubmit}>
-                        <h2 className="text-2xl font-bold mb-4">Add New Section</h2>
+                        <h2 className="text-2xl font-bold mb-4">Add New Subject</h2>
 
                         {/* Course Dropdown */}
                         <div className="mb-4">
@@ -98,7 +98,7 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
                             <input
                                 type="text"
                                 id="subjectName"
-                                className="px-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none"
+                                className="px-2 uppercase mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 outline-none"
                                 name='subjectName'
                                 required
                                 onChange={handleChange}
