@@ -25,7 +25,9 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setTeacherData(prev => ({ ...prev, [name]: value }));
+        setTeacherData(prev => ({ ...prev, 
+            [name]: name === 'name' ? value.toUpperCase() : value
+         }));
     };
 
     const handleCourseChange = (selectedOption) => {
@@ -179,12 +181,13 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                                 autoComplete='off'
                                 value={teacherData.name}
                                 onChange={handleInputChange}
-                                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-400
+                                className="uppercase mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-400
                                 focus:ring-offset-4 outline-none px-2 "
                                 required
                             />
                         </div>
 
+                        {/* email */}
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                             <input
@@ -200,6 +203,8 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                             />
                         </div>
 
+
+                        {/* password */}
                         <div className='relative'>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
                             <div className="relative">
@@ -242,6 +247,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                             </div>
                         </div>
 
+                        {/* course */}
                         <div>
                             <label htmlFor="course" className="block text-sm font-medium text-gray-700">Department</label>
                             <Select
@@ -253,6 +259,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                             />
                         </div>
 
+                        {/* sections */}
                         <div>
                             <label htmlFor="sections" className="block text-sm font-medium text-gray-700">Assigned Sections </label>
                             <Select
@@ -260,6 +267,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                                 isMulti
                                 options={availableSections}
                                 noOptionsMessage={() => "No sections has been created yet"}
+                                maxMenuHeight={145}
                                 onChange={handleSectionChange}
                                 value={teacherData.sections.map(id => availableSections.find(s => s.value === id))}
                                 // it shows options avaialble
@@ -268,10 +276,12 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                             />
                         </div>
 
+                        {/*  subjects */}
                         <div>
                             <label htmlFor="subject" className="block text-sm font-medium text-gray-700">Assigned Subject </label>
                             <Select
                                 id="subject"
+                                maxMenuHeight={120}
                                 options={availableSubjects}
                                 noOptionsMessage={() => "No subject has been added to the course yet"}
                                 onChange={handleSubjectChange}

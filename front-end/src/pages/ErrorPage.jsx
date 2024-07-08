@@ -14,10 +14,7 @@ export const ErrorPage = () => {
                         Engineer Cat will fix it soon so stay tuned meow.
                     </p>
 
-                    <div className='flex items-start'>
-                        <Link to="/" className=' bg-primary text-white py-2 px-6 rounded-full hover:bg-opacity-80 transition duration-300 quatro text-xl -ml-2'>
-                            To Instructions 
-                        </Link>
+                    <div className='block -ml-5'>
                         
                         <Link to="/login" className=' bg-primary text-white py-2 px-6 rounded-full hover:bg-opacity-80 transition duration-300 quatro text-xl ml-5'>
                             To Log in Page 

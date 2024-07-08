@@ -1,6 +1,6 @@
-export const fetchTeachers = async () => {
+export const fetchSection = async (id) => {
     try {
-        const response = await fetch('http://localhost:3000/admin/getTeachers', {
+        const response = await fetch(`http://localhost:3000/student/getSectionByID/${id}`, {
             method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ export const fetchTeachers = async () => {
         }
         
         let data = await response.json();
-        return data.teachers; 
+        return data; 
         
     } catch (error) {
         console.error('Error fetching courses:', error.message);
@@ -20,10 +20,3 @@ export const fetchTeachers = async () => {
 };
 
 
-export const fetchTeachersOfSection = async() =>{
-    try {
-        const response = await fetch('https')
-    } catch (error) {
-        
-    }
-}

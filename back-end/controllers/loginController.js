@@ -12,7 +12,7 @@ export const loginController = async (req, res) => {
         if (prefix.length > 2) {
             prefix = prefix.substring(0, 2);
         }
-        
+        console.log(uid , password);
         if (prefix === '10') {
             user = await Admin.findOne({ uid });
         }else if(prefix === '30'){
@@ -25,14 +25,17 @@ export const loginController = async (req, res) => {
             return res.status(401).json({message : "Invalid Credentials"}); 
         }
 
+        // console.log(user);
         if (!user) {
             return res.status(404).json({message : "User not found"});
         }
 
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
+            console.log('password doesnot match');
             return res.status(403).json({message : "    Invalid Password"});
         }else {
+            console.log('successful login');
             let token = await user.generateToken(); 
             res.cookie("token", token); 
             res.status(200).json({

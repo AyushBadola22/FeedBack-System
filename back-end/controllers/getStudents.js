@@ -18,3 +18,20 @@ export const getStudents = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }; 
+
+export const getStudentByID = async (req, res) => {
+    try {
+        const {uid} = req.params;
+
+        const student = await Student.find({uid}).select('uid name email section yearOfJoining semester')
+
+        if (!student ) {
+            return res.status(200).json("No such student exists");
+        }
+        // console.log(student);
+        res.status(200).json(student);
+    } catch (error) {
+        console.error("Error adding subject:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}; 

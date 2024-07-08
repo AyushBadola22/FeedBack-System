@@ -1,5 +1,6 @@
-export const TeacherTable = ({ teachers }) => {
+export const TeacherTable = ({ teachers , /*courses*/}) => {
   // console.log(teachers);
+  // console.log(courses);
   return (
     <div className="overflow-x-auto">
       <h3 className="text-center font-bold underline underline-offset-4 text-7xl mt-5 text-primary mb-5">Teachers</h3>

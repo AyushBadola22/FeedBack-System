@@ -50,11 +50,13 @@ export const LoginPage = () => {
             }
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             if(data.role === 'superadmin' || data.role === 'admin')
                 navigate('/admin')
-             else 
-                navigate('/home');
+             else {
+                // console.log(data.uid);
+                 navigate(`/instructions/${user.uid}`);
+             }
 
         } catch (error) {
             console.log("Error in Register : ", error);

@@ -7,6 +7,7 @@ import adminRouter from './router/adminRouter.js';
 import cookieParser from 'cookie-parser';
 import isLoggedIn from './middlewares/isLoggedIn.js';
 import hasRole from './middlewares/hasRole.js';
+import studentRouter from './router/studentRouter.js'
 import cors from 'cors'
 
 
@@ -26,7 +27,8 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use('/create',  createUser); 
-app.use('/admin', adminRouter); 
+app.use('/admin', adminRouter);
+app.use('/student', studentRouter) 
 app.use('/', authRouter);
 
 connectDB().then(()=>{

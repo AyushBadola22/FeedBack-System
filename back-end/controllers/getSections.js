@@ -41,7 +41,7 @@ export const getSections = async (req, res) => {
 
 // !  Its for taking data of particular section. 
 export const getSectionByID = async(req , res)=>{
-    const {id } = req.params; 
+    const {id} = req.params; 
     console.log(req.params);
     try {
         if(!id ){
@@ -51,7 +51,8 @@ export const getSectionByID = async(req , res)=>{
         if(!sectionExists){
             return res.status(400).json({message : "Section doesnt exists"}); 
         }  
-        return res.status(200).json({section : sectionExists.sectionCode, semester : sectionExists.semester}); 
+        console.log(sectionExists);
+        return res.status(200).json({section : sectionExists.sectionCode, semester : sectionExists.semester, teachers: sectionExists.teachers, course : sectionExists.course}); 
     } catch (error) {
         console.error('Error fetching section:', error);
         return res.status(500).json({ message: "Internal server error." });

@@ -173,7 +173,7 @@ export const AdminPage = () => {
             case 'students':
                 return <StudentTable students={students || []}  />;
             case 'teachers':
-                return <TeacherTable teachers={teachers} />;
+                return <TeacherTable teachers={teachers} /*courses = {courses} */ />;
             case 'reported':
                 return <h1>Reported table</h1>;
             default:

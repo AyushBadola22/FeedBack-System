@@ -1,19 +1,56 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import logo from './../assets/gehuLogo.png'
 import cat from './../assets/cat2.jpeg'
+import { fetchTeachers } from '../services/fetchTeachers';
+import { useEffect, useState } from 'react';
+import { fetchStudent } from '../services/fetchStudent';
+import { fetchSection } from '../services/fetchSection';
 
-export const HomePage = () => {
 
+/* // TODO : Fetch student , from there fetch section, from there fetch the teacher array ,
+    TODO : Now for every teacher make a form and display on screen .  
+
+*/
+export const InstructionPage = ({ studentID }) => {
+
+    const [studentData, setStudentData] = useState(null);
+    const [teacherArray, setTeacherArray] = useState([]);
+    const { uid } = useParams();
+    // console.log(uid);
     const navigate = useNavigate();
-    const handleClick = ()=>{
-        console.log("clicked");
-        navigate('login'); 
-    }
+    const handleClick = () => {
+        navigate('/feedbackForm', { state: { studentData, teacherArray } });
+    };
+
+
+    useEffect(() => {
+        const getStudent = async (uid) => {
+            try {
+                const studentResponse = await fetchStudent(uid);
+                const { _id, semester, section } = studentResponse;
+
+                const sectionResponse = await fetchSection(section.id);
+                const { course, teachers } = sectionResponse;
+                // console.log(course , teachers); 
+                setStudentData(prev => ({
+                    student: _id,
+                    teacher: "",
+                    course: course,
+                    section: section,
+                }));
+                // console.log(Array.isArray(teachers));
+                setTeacherArray(teachers);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getStudent(uid);
+    }, [uid])
 
     return <div className='bg-slate-200 scroll-smooth'>
 
         <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg ">
-
+           
             {/* Logo */}
             <div className='flex justify-center mb-3 mt-4'>
                 <img src={logo} alt="" className='w-60 ' />
@@ -69,18 +106,18 @@ export const HomePage = () => {
                 </ul>
             </section>
 
-        
+
             <p className="text-gray-600 italic text-left flex-1 md:mt-1 ">
-                Remember, your feedback helps improve the learning experience for everyone. 
+                Remember, your feedback helps improve the learning experience for everyone.
                 <br />Thank you for taking the time to provide thoughtful and constructive feedback!
             </p>
-            
+
             <div className='flex items-center justify-center gap-6 space-x-8 mt-8'>
-                <button 
-                    onClick={handleClick} 
-                    className='rounded-md quatro font-extrabold text-xl bg-primary text-white px-8 py-3 hover:bg-opacity-90 transition duration-300'
+                <button
+                    onClick={handleClick}
+                    className='rounded-md quatro font-extrabold text-xl bg-primary text-white px-8 py-3 hover:bg-white hover:text-primary hover:scale-105 hover:border-2 hover:border-primary hover:shadow-md hover:shadow-primary transition duration-300 hover:ring-2 hover:ring-accent '
                 >
-                    <a href="/login"> Log in</a>
+                    Go to Feedback Form
                 </button>
 
                 <img src={cat} alt="cat image" className='w-40 md:-mt-6 object-cover sway-left-right' />
