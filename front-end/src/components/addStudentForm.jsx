@@ -90,7 +90,8 @@ export const AddStudentForm = ({ onCancel }) => {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
-                        }
+                        }, 
+                        credentials : 'include'
                     });
 
 
@@ -137,6 +138,7 @@ export const AddStudentForm = ({ onCancel }) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials : 'include', 
                 body: JSON.stringify({
                     name: studentData.name,
                     email: studentData.email,
@@ -172,6 +174,7 @@ export const AddStudentForm = ({ onCancel }) => {
     /// frontend part *****************************************************************
     return (
         <>
+            <div></div>
             <div className='fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex justify-center items-center transition-all ease-in-out'>
                 <div className='bg-white p-6 rounded-lg shadow-md w-full max-w-md'>
                     <form onSubmit={handleSubmit} className="space-y-4">

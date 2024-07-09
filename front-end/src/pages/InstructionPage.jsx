@@ -1,23 +1,27 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import logo from './../assets/gehuLogo.png'
 import cat from './../assets/cat2.jpeg'
-import { fetchTeachers } from '../services/fetchTeachers';
 import { useEffect, useState } from 'react';
 import { fetchStudent } from '../services/fetchStudent';
 import { fetchSection } from '../services/fetchSection';
 
 
-/* // TODO : Fetch student , from there fetch section, from there fetch the teacher array ,
-    TODO : Now for every teacher make a form and display on screen .  
+/* // TODO : Use location to take the cookie data 
 
 */
 export const InstructionPage = ({ studentID }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const cookieData = location.state; 
+    console.log(cookieData);
+
 
     const [studentData, setStudentData] = useState(null);
     const [teacherArray, setTeacherArray] = useState([]);
     const { uid } = useParams();
-    // console.log(uid);
-    const navigate = useNavigate();
+
+
     const handleClick = () => {
         navigate('/feedbackForm', { state: { studentData, teacherArray } });
     };
@@ -28,21 +32,21 @@ export const InstructionPage = ({ studentID }) => {
             try {
                 const studentResponse = await fetchStudent(uid);
                 const { _id, semester, section } = studentResponse;
-
                 const sectionResponse = await fetchSection(section.id);
                 const { course, teachers } = sectionResponse;
-                // console.log(course , teachers); 
                 setStudentData(prev => ({
                     student: _id,
                     teacher: "",
                     course: course,
                     section: section,
                 }));
-                // console.log(Array.isArray(teachers));
                 setTeacherArray(teachers);
             } catch (error) {
                 console.log(error);
             }
+        }
+        if(!cookieData ){
+            navigate('/login' )
         }
         getStudent(uid);
     }, [uid])

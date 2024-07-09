@@ -5,6 +5,7 @@ export const fetchSection = async (id) => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials : 'include'
         });
         if(!response.ok){
             throw new Error('Error fetching the courses');

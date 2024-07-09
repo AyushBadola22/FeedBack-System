@@ -69,6 +69,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials : 'include',
                 body: JSON.stringify({
                     name: teacherData.name,
                     email: teacherData.email,
@@ -110,7 +111,8 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
-                        }
+                        }, 
+                        credentials : 'include',
                     });
 
 
@@ -118,7 +120,8 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
-                        }
+                        }, 
+                        credentials : 'include', 
                     })
 
 

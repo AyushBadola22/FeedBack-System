@@ -14,7 +14,7 @@ export const getStudents = async (req, res) => {
         }
         res.status(200).json(students);
     } catch (error) {
-        console.error("Error adding subject:", error);
+        console.error("Error adding student:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 }; 
@@ -31,7 +31,7 @@ export const getStudentByID = async (req, res) => {
         // console.log(student);
         res.status(200).json(student);
     } catch (error) {
-        console.error("Error adding subject:", error);
+        console.error("Error getting student:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 }; 

@@ -15,6 +15,8 @@ import cors from 'cors'
 const app = express();
 dotenv.config();
 app.use(express.json());
+app.use(cookieParser());
+
 const PORT = process.env.PORT ;
 
 const corsOptions = {
@@ -27,8 +29,8 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use('/create',  createUser); 
-app.use('/admin', adminRouter);
-app.use('/student', studentRouter) 
+app.use('/admin', isLoggedIn, adminRouter);
+app.use('/student', isLoggedIn, studentRouter) 
 app.use('/', authRouter);
 
 connectDB().then(()=>{

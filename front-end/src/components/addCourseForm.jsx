@@ -33,7 +33,8 @@ export const AddCourseForm = ({closeModel}) => {
                 headers : {
                     'Content-Type' : 'application/json'
                 }, 
-                body : JSON.stringify(courseData)
+                body : JSON.stringify(courseData), 
+                credentials : 'include'
             }); 
 
             if(!response.ok){

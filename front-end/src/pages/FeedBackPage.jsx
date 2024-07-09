@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
-
-
-
+import { Card } from '../components/Card';
+import { StarRating } from '../components/StarRating';
 
 
 // TODO : Understand how it works 
@@ -24,17 +22,22 @@ export const FeedbackPage = () => {
     const [teachers, setTeachers] = useState([]);
     const [currentTeacherIndex, setCurrentTeacherIndex] = useState(0);
     const [feedback, setFeedback] = useState({
-        interactivity: 0,
-        engagement: 0,
-        preparedness: 0,
-        fairness: 0,
-        availability: 0,
+        interactivity: -1,
+        engagement: -1,
+        preparedness: -1,
+        fairness: -1,
+        availability: -1,
         comment: ''
     });
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState({
+        status : false , 
+        message : ''
+    });
 
     const navigate = useNavigate();
+
+
 
     const descriptions = {
         interactivity: [
@@ -74,54 +77,22 @@ export const FeedbackPage = () => {
         ]
     };
 
-    function Card({ name, subject, course, className }) {
-        return (
-            <div className={`flex gap-4 rounded-xl shadow-sm p-6 mb-5 ${className}`}>
-                <div className="space-y-2 text-justify">
-                    <h3 className="text-[22px] flex gap-2">Name : <p className='font-extrabold'>{name}</p></h3>
-                    <h3 className="text-[22px] flex gap-2">Subject : <p className='font-extrabold'>{subject}</p></h3>
-                    <h3 className="text-[22px] flex gap-2">Course : <p className='font-extrabold'>{course}</p></h3>
-                </div>
-            </div>
-        );
-    }
 
-    const StarRating = ({ name, rating, setRating }) => {
-        return (
-            <div className="flex flex-col items-start space-y-2">
-                <div className="flex items-center space-x-4">
-                    {[...Array(5)].map((star, index) => {
-                        const ratingValue = index + 1;
-                        return (
-                            <label key={index} className="cursor-pointer">
-                                <input
-                                    type="radio"
-                                    name={name}
-                                    value={ratingValue}
-                                    onClick={() => setRating(name, ratingValue)}
-                                    className="hidden"
-                                />
-                                <FaStar
-                                    className="transition-colors duration-200 ease-in-out"
-                                    color={ratingValue <= rating ? "#FFA500" : "#e4e5e9"}
-                                    size={30}
-                                />
-                            </label>
-                        );
-                    })}
-                </div>
-                {rating > 0 && (
-                    <p className="text-sm text-gray-600 mt-1">
-                        {descriptions[name][rating - 1]}
-                    </p>
-                )}
-            </div>
-        );
-    };
 
     const handleRatingChange = (name, value) => {
         setFeedback(prev => ({ ...prev, [name]: value }));
     };
+
+    const handleSubmit = (e)=>{
+        e.preventDefault(); 
+        setError({status : false , message : ""})
+        const {interactivity, availability , engagement,fairness, preparedness} = feedback; 
+        if(interactivity < 0 || availability < 0 || engagement < 0 || fairness < 0 || preparedness < 0){
+            setError({status : true , message : "Please rate all the fields"})
+            return ; 
+        }
+        console.log(feedback);
+    }
 
     return (
         <div className="w-full min-h-screen bg-orange-50 py-8">
@@ -130,7 +101,8 @@ export const FeedbackPage = () => {
                     FEEDBACK <span className="px-2 text-white bg-orange-500 rounded-md">FORM</span>
                 </h1>
               
-                <form className="space-y-8 bg-white rounded-lg">
+                <form onSubmit={handleSubmit} 
+                className="space-y-8 bg-white rounded-lg">
                     <Card
                         className="bg-orange-100"
                         name='name'
@@ -145,6 +117,7 @@ export const FeedbackPage = () => {
                                 name={category}
                                 rating={feedback[category]}
                                 setRating={handleRatingChange}
+                                descriptions = {descriptions}
                             />
                         </div>
                     ))}
@@ -160,12 +133,15 @@ export const FeedbackPage = () => {
                             onChange={(e) => setFeedback(prev => ({ ...prev, comment: e.target.value }))}
                         ></textarea>
                     </div>
+                    {
+                        error.status && <p className='text-red-500 font-bold'>{error.message}</p>
+                    }
                     <div className="flex justify-between items-center">
                         <p className="text-sm text-gray-600">
                             Teacher {currentTeacherIndex + 1} of {teachers.length}
                         </p>
                         <button
-                            type="submit"
+                            type="submit"                            
                             className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors"
                         >
                             {currentTeacherIndex < teachers.length - 1 ? 'Next Teacher' : 'Submit All Feedback'}

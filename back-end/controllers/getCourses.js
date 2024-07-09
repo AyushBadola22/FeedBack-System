@@ -2,6 +2,7 @@ import Course from "../model/courseModel.js";
 
 export const getCourses = async (req, res) => {
     try {
+        res.cookie('test', 'ayush'); 
         const courses = await Course.find(); 
         if(!courses.sections){
             courses.sections = []

@@ -37,6 +37,7 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials :'include', 
                 body: JSON.stringify({
                     subjectName : subjectData.subjectName,
                     code : subjectData.code,  

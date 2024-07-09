@@ -36,6 +36,7 @@ export const AddSectionForm = ({ closeSectionModel, courses }) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials : 'include', 
                 body: JSON.stringify({
                     sectionCode: sectionData.sectionCode,
                     semester: sectionData.semester

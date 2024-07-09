@@ -12,9 +12,20 @@ import { AddTeacherForm } from '../components/addTeacherForm';
 import { StudentTable } from '../components/studentTable';
 import Select from 'react-select';
 import { AddStudentForm } from '../components/addStudentForm';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 export const AdminPage = () => {
 
+    const location = useLocation(); 
+    const user = location.state || {};
+    const {uid , role} = user; 
+    console.log(role);
+    const navigate = useNavigate()
+    if(!user || role != 'superadmin' && role != 'admin'){
+        navigate('/login'); 
+    }   
+
+    
     const [activeTab, setActiveTab] = useState('courses');
     const [courses, setCourses] = useState([]);
     const [teachers, setTeachersData] = useState([])
@@ -76,6 +87,8 @@ export const AdminPage = () => {
 
 
     // !  fetch teacher , students , courses here 
+
+    
     const fetchStudents = async (courseID , year) => {
         console.log('fetching students');
         if(!courseID || !year ) return; 
@@ -83,7 +96,8 @@ export const AdminPage = () => {
             const response = await fetch(`http://localhost:3000/admin/getStudents/${courseID}/${year}`, {
                 headers : {
                     'Content-Type' : 'application/json'
-                }
+                }, 
+                credentials : 'include'
             }); 
             console.log(response);
             if(!response.ok){
@@ -166,7 +180,7 @@ export const AdminPage = () => {
 
 
     // * All tabs that will be renderd if i click a button at nav bar.
-    const renderContent = () => {
+    const renderContent = () => {   
         switch (activeTab) {
             case 'courses':
                 return <CourseTable courses={courses} />;

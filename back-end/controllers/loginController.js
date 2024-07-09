@@ -25,7 +25,6 @@ export const loginController = async (req, res) => {
             return res.status(401).json({message : "Invalid Credentials"}); 
         }
 
-        // console.log(user);
         if (!user) {
             return res.status(404).json({message : "User not found"});
         }
@@ -33,11 +32,16 @@ export const loginController = async (req, res) => {
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
             console.log('password doesnot match');
-            return res.status(403).json({message : "    Invalid Password"});
+            return res.status(403).json({message : "Invalid Password"});
         }else {
             console.log('successful login');
-            let token = await user.generateToken(); 
-            res.cookie("token", token); 
+            let token = await user.generateToken();
+            
+            res.cookie("token", token, {
+                expires : new Date(Date.now() + 1000*60*60), 
+                httpOnly : true,
+                sameSite: 'Strict'
+            });
             res.status(200).json({
                 message : "Login Successful", 
                 token : token, 
@@ -49,7 +53,7 @@ export const loginController = async (req, res) => {
     } catch (error) {
         console.error(error.message);
         if (!res.headersSent) {
-            res.status(500).send("Internal server error");
+            res.status(500).send("Internal server error"+error.message);
         }
     }
 };

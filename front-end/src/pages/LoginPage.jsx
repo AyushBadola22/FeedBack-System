@@ -1,23 +1,25 @@
-import { useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useState , useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import studentImg from './../assets/collegeStudent.png';
 import logo from '../assets/gehuLogo.png';
-
-import {  FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export const LoginPage = () => {
 
+    
     // All the states 
     const [user, setUser] = useState({
-        uid: "",
-        password: ""
+        uid: 20240711,
+        password: "ayush"
     }); // update the user
 
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
     const [error, setError] = useState(false)
+
     // All the handlers 
+   
     const toggleVisibility = () => {
         setShowPassword(!showPassword);
     }
@@ -40,23 +42,22 @@ export const LoginPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user),
+                credentials : 'include'
             });
-            console.log(response);
+            const data = await response.json();
+
             if (!response.ok) {
                 setError(true);
                 const errorData = await response.json();
-                console.log(response.json);
                 throw new Error(errorData.message || 'Login failed');
             }
-
-            const data = await response.json();
-            // console.log(data);
-            if(data.role === 'superadmin' || data.role === 'admin')
-                navigate('/admin')
-             else {
-                // console.log(data.uid);
-                 navigate(`/instructions/${user.uid}`);
-             }
+            const {uid , role } = data; 
+            console.log(uid , role);
+            if (data.role === 'superadmin' || data.role === 'admin')
+                navigate('/admin', { state: { uid , role } })
+            else {
+                navigate(`/instructions/${user.uid}`, { state : {uid , role }});
+            }
 
         } catch (error) {
             console.log("Error in Register : ", error);

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'
 const studentSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -37,6 +38,10 @@ const studentSchema = new mongoose.Schema({
     feedbackGiven: {
         status : {type : Boolean , default : false}, 
         id : {type : mongoose.Schema.Types.ObjectId , ref : 'Feedback'}
+    }, 
+    role : {
+        type : String , 
+        default : "student" 
     }
 });
 
@@ -57,11 +62,10 @@ studentSchema.pre('save', async function (next) {
 studentSchema.methods.generateToken = async function () {
 
     try {
-
         return jwt.sign(
             {
                 id: this._id.toString(),
-                role: this.role,
+                role: this.role ,
             },
             process.env.JWT_SECRET_KEY,
             {

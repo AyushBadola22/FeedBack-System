@@ -51,7 +51,6 @@ export const getSectionByID = async(req , res)=>{
         if(!sectionExists){
             return res.status(400).json({message : "Section doesnt exists"}); 
         }  
-        console.log(sectionExists);
         return res.status(200).json({section : sectionExists.sectionCode, semester : sectionExists.semester, teachers: sectionExists.teachers, course : sectionExists.course}); 
     } catch (error) {
         console.error('Error fetching section:', error);
