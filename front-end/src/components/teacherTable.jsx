@@ -17,7 +17,7 @@ export const TeacherTable = ({ teachers , /*courses*/}) => {
           </tr>
         </thead>
         <tbody>
-          {(!teachers || teachers.length == 0) ? (
+          {(!teachers || teachers?.length == 0) ? (
             <tr>
               <td colSpan={5} className="px-6 py-4 whitespace-nowrap text-center font-bold text-primary">Nothing here yet</td>
             </tr>

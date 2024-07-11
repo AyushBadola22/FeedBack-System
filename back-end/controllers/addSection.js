@@ -22,7 +22,7 @@ export const addSection = async (req , res) =>{
             return res.status(400).json({ message: `Semester 0 is not allowed` });
         }
 
-        const sectionExists = await Section.findOne({ sectionCode, semester });
+        const sectionExists = await Section.findOne({ sectionCode, semester, course : courseID });
         if(sectionExists){
             return res.status(400).json({message : "Section already exists"}); 
         }

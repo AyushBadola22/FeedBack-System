@@ -10,7 +10,8 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
         password: "",
         confirmPassword: "",
         subjectID: "",
-        sections: []
+        sections: [] ,
+        courseID : ""
     });
 
     const [selectedCourse, setSelectedCourse] = useState(null);
@@ -31,13 +32,14 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
     };
 
     const handleCourseChange = (selectedOption) => {
+        console.log(selectedOption.value);
         setSelectedCourse(selectedOption);
-        setTeacherData(prev => ({ ...prev, subjectID: "", sections: [] }));
+        setTeacherData(prev => ({ ...prev, subjectID: "", sections: [] , courseID : selectedOption.value}));
         setAvailableSubjects([]);
         setAvailableSections([]);
     };
 
-    const handleSubjectChange = (selectedOption) => {
+    const handleSubjectChange = (selectedOption) => {        
         setTeacherData(prev => ({ ...prev, subjectID: selectedOption.value }));
     };
 
@@ -51,6 +53,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
     };
 
     const handleSubmit = async (e) => {
+        console.log(selectedCourse);
         e.preventDefault();
         console.log(teacherData);
         if (teacherData.confirmPassword !== teacherData.password)
@@ -62,7 +65,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
             return setError({ status: true, message: 'No subject selected.' })
         }
         setError({ status: false, message: "" });
-
+        console.log(teacherData);
         try {
             const response = await fetch(`http://localhost:3000/create/teacher`, {
                 method: 'POST',
@@ -75,7 +78,8 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                     email: teacherData.email,
                     password: teacherData.password,
                     subjectID: teacherData.subjectID,
-                    sections: teacherData.sections || []
+                    sections: teacherData.sections || [], 
+                    courseID : teacherData.courseID
                 })
             });
 
@@ -165,6 +169,9 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
             };
 
             fetchData();
+            setTeacherData(prev => ({ ...prev, 
+                courseID : selectedCourse.value
+            }));
         }
     }, [selectedCourse]);
 

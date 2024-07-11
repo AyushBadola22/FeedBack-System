@@ -7,25 +7,22 @@ import { fetchCourses } from "../services/fetchCourses";
 import { AddSectionForm } from '../components/addSectionForm';
 import { AddSubjectForm } from '../components/addSubject';
 import { TeacherTable } from '../components/teacherTable';
-import { fetchTeachers } from '../services/fetchTeachers';
+import { fetchTeachers, fetchTeachersOfCourse } from '../services/fetchTeachers';
 import { AddTeacherForm } from '../components/addTeacherForm';
 import { StudentTable } from '../components/studentTable';
 import Select from 'react-select';
 import { AddStudentForm } from '../components/addStudentForm';
-import { useNavigate , useLocation} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ReportedFeedback } from '../components/reportedFeedback';
 
 export const AdminPage = () => {
 
-    const location = useLocation(); 
+    const location = useLocation();
     const user = location.state || {};
-    const {uid , role} = user; 
-    console.log(role);
+    const { role } = user;
     const navigate = useNavigate()
-    if(!user || role != 'superadmin' && role != 'admin'){
-        navigate('/login'); 
-    }   
 
-    
+
     const [activeTab, setActiveTab] = useState('courses');
     const [courses, setCourses] = useState([]);
     const [teachers, setTeachersData] = useState([])
@@ -88,35 +85,38 @@ export const AdminPage = () => {
 
     // !  fetch teacher , students , courses here 
 
-    
-    const fetchStudents = async (courseID , year) => {
-        console.log('fetching students');
-        if(!courseID || !year ) return; 
+
+    const fetchStudents = async (courseID, year) => {
+        if (!courseID || !year) return;
         try {
             const response = await fetch(`http://localhost:3000/admin/getStudents/${courseID}/${year}`, {
-                headers : {
-                    'Content-Type' : 'application/json'
-                }, 
-                credentials : 'include'
-            }); 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            });
             console.log(response);
-            if(!response.ok){
+            if (!response.ok) {
                 console.log("Error fetching data");
                 setStudentsData([]);
             }
-            const data = await response.json(); 
+            const data = await response.json();
             // console.log(data);
-            setStudentsData(data); 
+            setStudentsData(data);
         } catch (error) {
-            console.log('Error fetching students :'+error);
-            setStudentsData([]); 
+            console.log('Error fetching students :' + error);
+            setStudentsData([]);
         }
     }
 
-
+    useEffect(() => {
+        if (!user || (role !== 'superadmin' && role !== 'admin')) {
+            console.log('You are not logged in. Please log in.');
+            navigate('/login');
+        }
+    }, [user, role, navigate]);
     useEffect(() => {
         const getCourses = async () => {
-            console.log('fetching courses');
             try {
                 const data = await fetchCourses();
                 setCourses(data.courses || []);
@@ -127,17 +127,23 @@ export const AdminPage = () => {
         };
 
         const getTeachers = async () => {
-            console.log("fetching teachers");
             try {
-                const response = await fetchTeachers();
-                // console.log("Response:", response);
+                let response; 
+                if(selectedCourse ){
+                    response = await fetchTeachersOfCourse(selectedCourse.value); 
+                    console.log(response);
+                }else {
+                    response = await fetchTeachers();
+                }
+
+                console.log(response);
 
                 if (response) {
                     const teachersArray = response.map(teacher => ({
                         uid: teacher.uid,
                         name: teacher.name,
                         email: teacher.email,
-                        section: teacher.sections || [],
+                        section: teacher.section || [],
                         subject: teacher.subject,
                         _id: teacher._id
                     }));
@@ -158,7 +164,6 @@ export const AdminPage = () => {
         } else if (activeTab === 'teachers') {
             getTeachers();
             getCourses();
-
         }
         else if (activeTab === 'students') {
             getCourses();
@@ -170,7 +175,7 @@ export const AdminPage = () => {
                 }
             })
             setCourses(coursesList);
-            if(selectedYear && selectedCourse){
+            if (selectedYear && selectedCourse) {
                 fetchStudents(selectedCourse.value, selectedYear.value);
                 console.log(students);
             }
@@ -180,16 +185,16 @@ export const AdminPage = () => {
 
 
     // * All tabs that will be renderd if i click a button at nav bar.
-    const renderContent = () => {   
+    const renderContent = () => {
         switch (activeTab) {
             case 'courses':
                 return <CourseTable courses={courses} />;
             case 'students':
-                return <StudentTable students={students || []}  />;
+                return <StudentTable students={students || []} />;
             case 'teachers':
                 return <TeacherTable teachers={teachers} /*courses = {courses} */ />;
             case 'reported':
-                return <h1>Reported table</h1>;
+                return <ReportedFeedback reportedFeedbacks={[]}/>;
             default:
                 return <CourseTable courses={courses} />;
         }
@@ -237,19 +242,34 @@ export const AdminPage = () => {
             **********************************************************/}
             {
                 activeTab === 'teachers' &&
-                <div className="fixed bottom-8 left-10 flex space-x-4">
-                    {/* Add Teacher */}
-                    <button
-                        onClick={showTeacherForm}
-                        className="shadow-lg bg-primary font-bold text-white rounded-full px-3 py-1 uppercase flex gap-2 text-sm justify-center items-center hover:opacity-80 hover:bg-white hover:text-primary hover:ring-2 hover:ring-orange-400 ease-in-out transition-all hover:shadow-lg hover:delay-75"
-                    >
-                        Add teacher <IoIosAddCircle className='hover:transform hover:transition-transform duration-75 hover:rotate-180 hover:scale-110' size={20} />
-                    </button>
+                <div>
+                    <div className='fixed w-1/4 left-5 top-24'>
+                        <div className='flex space-x-4'>
+                            <Select
+                                placeholder='Select Course'
+                                id="selectedCourse"
+                                onChange={handleCourseChange}
+                                options={courses.map(course => ({ value: course._id, label: course.courseName }))}
+                                value={selectedCourse}
+                                noOptionsMessage={() => "No course has been added yet"}
+                                className="shadow-md shadow-cyan-200 rounded-md  w-1/2 hover:ring-2 hover:border-cyan-300 hover:scale-105 transition-all ease-in-out duration-150 "
+                            />  
+                        </div> {/* options , value , onChange  */}
+                    </div>
+                    <div className="fixed bottom-8 left-10 flex space-x-4">
+                        {/* Add Teacher */}
+                        <button
+                            onClick={showTeacherForm}
+                            className="shadow-lg bg-primary font-bold text-white rounded-full px-3 py-1 uppercase flex gap-2 text-sm justify-center items-center hover:opacity-80 hover:bg-white hover:text-primary hover:ring-2 hover:ring-orange-400 ease-in-out transition-all hover:shadow-lg hover:delay-75"
+                        >
+                            Add teacher <IoIosAddCircle className='hover:transform hover:transition-transform duration-75 hover:rotate-180 hover:scale-110' size={20} />
+                        </button>
+                    </div>
                 </div>
 
             }
 
-
+            {/* Student tab logic here  */}
             {
                 activeTab === 'students' &&
                 <div>
@@ -278,10 +298,10 @@ export const AdminPage = () => {
 
 
 
-                    <div className="fixed bottom-8 left-10 flex space-x-4">   
+                    <div className="fixed bottom-8 left-10 flex space-x-4">
                         {/* Add Student Button */}
                         <button
-                       
+
                             className="shadow-lg bg-primary font-bold text-white rounded-full px-3 py-1 uppercase flex gap-2 text-sm justify-center items-center hover:opacity-80 hover:bg-white hover:text-primary hover:ring-2 hover:ring-orange-400 ease-in-out transition-all hover:shadow-lg hover:delay-75"
                             onClick={showStudentForm}
                         >
@@ -289,7 +309,6 @@ export const AdminPage = () => {
                         </button>
                     </div>
                 </div>
-
 
             }
 
@@ -300,7 +319,7 @@ export const AdminPage = () => {
 
             {showTeacherModel && <AddTeacherForm courses={courses} onCancel={hideTeacherForm} />}
 
-            {showStudentModel && <AddStudentForm onCancel={hideStudentForm}/>}
+            {showStudentModel && <AddStudentForm onCancel={hideStudentForm} />}
         </>
     );
 }

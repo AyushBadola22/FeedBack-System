@@ -14,7 +14,6 @@ export const InstructionPage = ({ studentID }) => {
     const location = useLocation();
 
     const cookieData = location.state; 
-    console.log(cookieData);
 
 
     const [studentData, setStudentData] = useState(null);
@@ -23,7 +22,8 @@ export const InstructionPage = ({ studentID }) => {
 
 
     const handleClick = () => {
-        navigate('/feedbackForm', { state: { studentData, teacherArray } });
+        console.log(teacherArray);
+        navigate('/feedbackForm', { state: { studentData, teacherArray, cookieData   } });
     };
 
 
@@ -46,7 +46,7 @@ export const InstructionPage = ({ studentID }) => {
             }
         }
         if(!cookieData ){
-            navigate('/login' )
+            navigate('/login')
         }
         getStudent(uid);
     }, [uid])

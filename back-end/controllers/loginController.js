@@ -4,6 +4,7 @@ import Teacher from "../model/teacherModel.js";
 import Student from "../model/studentModel.js";
 
 
+
 export const loginController = async (req, res) => {
     const { uid, password } = req.body;
     try {

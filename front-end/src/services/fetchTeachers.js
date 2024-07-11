@@ -21,10 +21,46 @@ export const fetchTeachers = async () => {
 };
 
 
-export const fetchTeachersOfSection = async() =>{
+export const fetchTeachersByID = async(id) =>{
     try {
-        const response = await fetch('https')
+        const response = await fetch(`http://localhost:3000/student/getTeacherByID/${id}`, {
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json', 
+            }, 
+            credentials : 'include'
+        })
+        if(!response.ok){
+            console.log('failed to fetch teacher');
+            return ;
+        }
+        const data = await response.json(); 
+        return data ;
     } catch (error) {
+        console.error(error.message);
+    }
+}
+
+export const fetchTeachersOfCourse = async(id) => {
+    try {
         
+        const response = await fetch(`http://localhost:3000/admin/getTeachersByCourse/${id}`, {
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json', 
+            }, 
+            credentials : 'include'
+        });
+        console.log(response);
+        const data = await response.json(); 
+        console.log(data);
+        if(!response.ok){
+            console.log('failed to fetch teacher');
+            return ;
+        }
+        console.log('Data is ...............', data);
+        return data;        
+    } catch (error) {
+        console.error(error.message);
     }
 }

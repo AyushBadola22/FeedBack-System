@@ -25,7 +25,7 @@ export const getStudentByID = async (req, res) => {
 
         const student = await Student.find({uid}).select('uid name email section yearOfJoining semester')
 
-        if (!student ) {
+        if (!student || !student.length) {
             return res.status(200).json("No such student exists");
         }
         // console.log(student);

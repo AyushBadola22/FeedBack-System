@@ -7,6 +7,7 @@ import adminRouter from './router/adminRouter.js';
 import cookieParser from 'cookie-parser';
 import isLoggedIn from './middlewares/isLoggedIn.js';
 import hasRole from './middlewares/hasRole.js';
+import teacherRouter from './router/teacherRouter.js'
 import studentRouter from './router/studentRouter.js'
 import cors from 'cors'
 
@@ -30,6 +31,7 @@ app.use(cookieParser());
 
 app.use('/create',  createUser); 
 app.use('/admin', isLoggedIn, adminRouter);
+app.use('/teacher', isLoggedIn , teacherRouter)
 app.use('/student', isLoggedIn, studentRouter) 
 app.use('/', authRouter);
 

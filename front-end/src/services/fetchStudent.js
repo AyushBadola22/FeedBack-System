@@ -10,6 +10,7 @@ export const fetchStudent = async (uid) => {
         if(!response.ok){
             throw new Error('Error fetching the courses');
         }
+        
         const data = await response.json();
         return data[0];
     } catch (error) {

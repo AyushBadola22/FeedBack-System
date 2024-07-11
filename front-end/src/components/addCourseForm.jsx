@@ -21,12 +21,19 @@ export const AddCourseForm = ({closeModel}) => {
     }
 
     const handleSubmit = async (e)=>{
+        e.preventDefault(); 
         setError({
             errorStatus : false , 
             errorMessage : "" 
         });
         console.log(JSON.stringify(courseData));
-
+        if(courseData.duration <= 0){
+            setError({
+                errorStatus : true , 
+                errorMessage : "Enter valid semester duration" 
+            });
+            return; 
+        }
         try {
             const response = await fetch('http://localhost:3000/admin/addCourse',{
                 method : 'POST', 
@@ -112,7 +119,7 @@ export const AddCourseForm = ({closeModel}) => {
     
                         {/* Error message */}
                         {errorOccured.errorStatus && 
-                            <p className='font-bold mt-5 text-red-500 block w-full'>Something went Wrong. <br /> Ensure that course doesn't already exists.</p>
+                            <p className='font-bold mt-5 text-red-500 block w-full'>Something went Wrong. <br />{errorOccured.errorMessage || 'Course already exists'}</p>
                         }
                     </form>
                 </div>

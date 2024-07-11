@@ -1,16 +1,23 @@
-import { useState , useEffect} from 'react';
+import { useState , useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import studentImg from './../assets/collegeStudent.png';
 import logo from '../assets/gehuLogo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import SyncLoader from "react-spinners/SyncLoader";
+import catImg from '../assets/cat2.jpeg'
 
 export const LoginPage = () => {
-
-    
+    const [isLoading , setLoading] = useState(false); 
+    useEffect(()=>{
+        setLoading(true); 
+        setTimeout(()=>{
+            setLoading(false);
+        }, 2000)
+    }, [])
     // All the states 
     const [user, setUser] = useState({
-        uid: 20240711,
-        password: "ayush"
+        uid:  '',
+        password: ""
     }); // update the user
 
     const [showPassword, setShowPassword] = useState(false);
@@ -66,15 +73,19 @@ export const LoginPage = () => {
 
 
 
-    return <div className='-mt-8 min-h-screen flex flex-col items-center justify-center bg-gray-100'>
-
+    return isLoading ? <div className='w-full h-full  '> 
+        <div className='fixed inset-0 flex justify-center items-center transition-all ease-in-out'>
+                <img src={catImg} className='w-36' alt="" />
+                <SyncLoader  color='orange' />
+            </div>
+    </div> : <div className='-mt-8 min-h-screen flex flex-col items-center justify-center bg-gray-100'>
         <img src={logo} alt="Logo" className='w-64 h-auto mb-8 hover:w-72 hover:ease-in-out hover:transition-all' />
 
         <div className='flex flex-col md:flex-row items-center max-w-4xl w-full bg-white rounded-lg shadow-lg overflow-hidden'>
             <div className='w-full md:w-1/2 p-8 hidden md:block'>
                 <img src={studentImg} alt="Student" className='w-full h-auto object-cover sway-left-right' />
             </div>
-
+            
             <div className='w-full md:w-1/2 p-10 flex flex-col items-center'>
                 <h2 className='oswald text-4xl md:text-5xl font-bold text-center mb-8'>Login</h2>
 

@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 
 function isLoggedIn(req, res, next) {
     const token = req.cookies.token;
-    console.log(token);
     if (!token) {
         console.log("Not logged in");
         return res.status(400).json({ message: "You are not logged in." });

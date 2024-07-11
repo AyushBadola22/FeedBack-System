@@ -29,9 +29,8 @@ const generateUID = async () => {
 }
 
 export const createTeacher = async (req, res) => {
-    console.log("creating teacher user");``
-    const { name, email, password, subjectID, sections } = req.body;
-
+    console.log("creating teacher user");
+    const { name, email, password, subjectID, sections, courseID } = req.body;
     sections.map((id) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ message: "Invalid Section ID format " });
@@ -67,7 +66,7 @@ export const createTeacher = async (req, res) => {
         console.log(sections);
 
         let subjectData = {
-            name: subject.subjectName,
+            name: subject.subjectName + '-Sem-'+subject.semester,
             id: subject._id
         }
 
@@ -75,7 +74,8 @@ export const createTeacher = async (req, res) => {
         const newTeacher = new Teacher({
             name, uid, email, password,
             section: sectionData,
-            subject : subjectData
+            subject : subjectData, 
+            course : courseID
         });
         await newTeacher.save();
 
@@ -86,10 +86,11 @@ export const createTeacher = async (req, res) => {
                 { new: true }
             );
         }
-
+        console.log('created succesfully');
         res.status(200).json({message : "Teacher Created", data : newTeacher}); 
     }
     catch (error) {
+        console.log(error.message);
         res.status(501).send('Error creating user : ' + error.message)
     }
 };
