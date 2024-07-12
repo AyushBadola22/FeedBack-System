@@ -1,6 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import bcrypt from "bcrypt"; 
-
+import jwt from 'jsonwebtoken'
 const teacherSchema = new mongoose.Schema({
     name : {
         type : String , 
@@ -64,6 +64,24 @@ teacherSchema.pre('save', async function (next){
         next(error);
     }
 });
+
+teacherSchema.methods.generateToken = async function () {
+
+    try {
+        return jwt.sign(
+            {
+                id: this._id.toString(),
+                role: this.role ,
+            },
+            process.env.JWT_SECRET_KEY,
+            {
+                expiresIn: "1d"
+            }
+        )
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 
 const Teacher = mongoose.model('Teacher',teacherSchema); 

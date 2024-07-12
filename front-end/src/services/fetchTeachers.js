@@ -64,3 +64,23 @@ export const fetchTeachersOfCourse = async(id) => {
         console.error(error.message);
     }
 }
+
+export const fetchTeachersByUID = async(uid) =>{
+    try {
+        const response = await fetch(`http://localhost:3000/teacher/getTeacherByUID/${uid}`, {
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json', 
+            }, 
+            credentials : 'include'
+        })
+        if(!response.ok){
+            console.log('failed to fetch teacher');
+            return null;
+        }
+        const data = await response.json(); 
+        return data ;
+    } catch (error) {
+        console.error(error.message);
+    }
+}

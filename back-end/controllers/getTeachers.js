@@ -50,13 +50,24 @@ export const getTeacherByID = async (req, res) => {
 export const getTeacherByCourse = async(req , res)=>{
     const { courseID } = req.params ; 
     try {
-        console.log(courseID);
         const teachers = await Teacher.find({course : courseID}); 
         if(!teachers) 
             return res.status(400).json({message : "No teachers of this course"}); 
-        console.log(teachers);
         res.status(200).json(teachers); 
     } catch (error) {
         console.log(error.message);
+    } 
+}
+
+export const getTeacherByUID = async (req, res)=>{
+    const { uid } = req.params ; 
+    try {
+        const teacher = await Teacher.findOne({uid}); 
+        if(!teacher) 
+            return res.status(400).json({message : "No teacher of this course"}); 
+        res.status(200).json(teacher); 
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json('internal error : '+error.message); 
     } 
 }
