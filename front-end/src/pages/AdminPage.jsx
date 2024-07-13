@@ -14,7 +14,7 @@ import Select from 'react-select';
 import { AddStudentForm } from '../components/addStudentForm';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ReportedFeedback } from '../components/reportedFeedback';
-import {getReportedFeedbacks} from '../services/submitFeedbacks'
+
 export const AdminPage = () => {
 
     const location = useLocation();
@@ -57,12 +57,6 @@ export const AdminPage = () => {
     const hideStudentForm = () => setStudentModel(false);
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedCourse, setSelectedCourse] = useState(null);
-
-
-    // ---------------   Reported Tab logic -----------------------------//
-    const [reportedComments , setReportedComments] = useState([]); 
-    //-------------------------------------------------------------------//
-
 
     const handleYearChange = (selectedOptions) => {
         setSelectedYear(selectedOptions);
@@ -115,16 +109,12 @@ export const AdminPage = () => {
         }
     }
 
-
-    // when the user first logins checks whether he/she is admin or not 
     useEffect(() => {
         if (!user || (role !== 'superadmin' && role !== 'admin')) {
             console.log('You are not logged in. Please log in.');
             navigate('/login');
         }
     }, [user, role, navigate]);
-
-
     useEffect(() => {
         const getCourses = async () => {
             try {
@@ -167,11 +157,6 @@ export const AdminPage = () => {
             }
         };
 
-        const getFeedbacks = async ()=>{
-            const reported = await getReportedFeedbacks(); 
-            setReportedComments(reported); 
-        }
-
         if (activeTab === 'courses') {
             getCourses();
             const intervalId = setInterval(getCourses, 60000);
@@ -195,9 +180,6 @@ export const AdminPage = () => {
                 console.log(students);
             }
         }
-        else {
-            getFeedbacks();
-        }
 
     }, [activeTab, showTeacherModel, selectedCourse, selectedYear /*showStudentModel*/]);
 
@@ -212,7 +194,7 @@ export const AdminPage = () => {
             case 'teachers':
                 return <TeacherTable teachers={teachers} /*courses = {courses} */ />;
             case 'reported':
-                return <ReportedFeedback reportedFeedbacks={reportedComments}/>;
+                return <ReportedFeedback reportedFeedbacks={[]}/>;
             default:
                 return <CourseTable courses={courses} />;
         }

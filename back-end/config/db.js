@@ -2,14 +2,13 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 dotenv.config();
 
-const DB_URI = process.env.DB_URI;
-const DBI_URI_ONLINE = process.env.DBI_URI_ONLINE;
+const DB_URI = process.env.DB_URI
 const connectDB = async ()=>{
     try {
-        await mongoose.connect(DBI_URI_ONLINE);
+        await mongoose.connect(DB_URI);
         console.log("Database connected"); 
     } catch (error) {
-        console.error("Failed to connect \n\n "+error.message);
+        console.error("Failed to connect \n\n ");
         process.exit(0); 
     }
 }; 

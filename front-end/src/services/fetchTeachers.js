@@ -1,19 +1,19 @@
 export const fetchTeachers = async () => {
     try {
         const response = await fetch('http://localhost:3000/admin/getTeachers', {
-            method: 'GET',
+            method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include'
+            credentials : 'include'
         });
-        if (!response.ok) {
+        if(!response.ok){
             throw new Error('Error fetching the courses');
         }
-
+        
         let data = await response.json();
-        return data.teachers;
-
+        return data.teachers; 
+        
     } catch (error) {
         console.error('Error fetching courses:', error.message);
         throw error;
@@ -21,87 +21,66 @@ export const fetchTeachers = async () => {
 };
 
 
-export const fetchTeachersByID = async (id) => {
+export const fetchTeachersByID = async(id) =>{
     try {
         const response = await fetch(`http://localhost:3000/student/getTeacherByID/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include'
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json', 
+            }, 
+            credentials : 'include'
         })
-        if (!response.ok) {
+        if(!response.ok){
             console.log('failed to fetch teacher');
-            return;
+            return ;
         }
-        const data = await response.json();
-        return data;
+        const data = await response.json(); 
+        return data ;
     } catch (error) {
         console.error(error.message);
     }
 }
 
-export const fetchTeachersOfCourse = async (id) => {
+export const fetchTeachersOfCourse = async(id) => {
     try {
-
+        
         const response = await fetch(`http://localhost:3000/admin/getTeachersByCourse/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include'
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json', 
+            }, 
+            credentials : 'include'
         });
-        const data = await response.json();
+        console.log(response);
+        const data = await response.json(); 
         console.log(data);
-        if (!response.ok) {
+        if(!response.ok){
             console.log('failed to fetch teacher');
-            return;
+            return ;
         }
         console.log('Data is ...............', data);
-        return data;
+        return data;        
     } catch (error) {
         console.error(error.message);
     }
 }
 
-export const fetchTeachersByUID = async (uid) => {
+export const fetchTeachersByUID = async(uid) =>{
     try {
         const response = await fetch(`http://localhost:3000/teacher/getTeacherByUID/${uid}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include'
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json', 
+            }, 
+            credentials : 'include'
         })
-        if (!response.ok) {
+        if(!response.ok){
             console.log('failed to fetch teacher');
             return null;
         }
-        const data = await response.json();
-        return data;
+        const data = await response.json(); 
+        return data ;
     } catch (error) {
         console.error(error.message);
     }
 }
-
-
-export const fetchTeacherByID_admin = async (id) => {
-    try {
-        const response = await fetch(`http://localhost:3000/admin/getTeacher/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include'
-        })
-        if (!response.ok) {
-            console.log('failed to fetch teacher');
-            return {};
-        }
-        const data = await response.json();
-        const {name , uid} = data;
-        return {name , uid};  
-    } catch (error) {
-        console.error(error.message);
-    }
-} 

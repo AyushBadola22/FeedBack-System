@@ -63,7 +63,7 @@ const feedbackSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['submitted', 'reported'],
+        enum: ['submitted', 'reviewed'],
         default: 'submitted'
     }
 }, { timestamps: true });

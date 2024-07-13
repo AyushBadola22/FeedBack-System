@@ -1,22 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { FaUsers, FaUserGraduate, FaChalkboardTeacher, FaBook } from 'react-icons/fa';
 
-
 export const NavBar = ({ setActiveTab, activeTab }) => {
-    const navigate = useNavigate();
-    const logout = async ()=>{
-        console.log('logging out');
-        const response = await fetch('http://localhost:3000/logout', {
-            credentials : 'include', 
-            method : "GET", 
-            headers : {
-                'Content-Type' : 'application/json'
-            }
-        })
-        if(response.ok){
-            navigate('/login');
-        }
-    }
     return (
         <nav className="sticky top-0 bg-background text-primary shadow-md z-10">
             <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
@@ -60,14 +45,6 @@ export const NavBar = ({ setActiveTab, activeTab }) => {
                         >
                             <FaUsers className="mr-2" />
                             <h3>Reported</h3>
-                        </button>
-                    </li>
-                    <li>
-                        <button 
-                            onClick={logout}
-                            className='flex items-center font-bold px-3 py-1 rounded-full shadow-sm text-white bg-primary hover:opacity-85  transition-all ease-in-out delay-75 hover:shadow-lg'
-                        >
-                            <h3>Logout</h3>
                         </button>
                     </li>
                 </ul>
