@@ -1,14 +1,11 @@
 import { useState } from "react";
+import { reportFeedback } from "../services/reportFeedback";
 
-export const Comments = ({ studentName, dateAndTime, teacherName, commentData }) => {
+export const Comment = ({ studentName, date, teacherName, comment }) => {
     const handleName = () => {
         setShowName(!showName);
     }
-    studentName = studentName || 'ayush',
-        dateAndTime = dateAndTime || '12/12/12 on 12:12:21'
-    teacherName = teacherName || 'Rahul Chauhan',
-        commentData = commentData || 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio maiores dolorum quas libero et doloremque magni? Atque dolor enim cupiditate aspernatur mollitia. Earum itaque ad, commodi dolor qui nihil voluptatem?'
-
+    console.log(studentName, date , teacherName , comment);
     const [showName, setShowName] = useState(false);
     return (
         <div className=" w-4/6 text-left px-5 bg-orange-100 shadow-lg border-2 border-orange-50 mt-7 ml-10 hover:scale-105 transition-all ease-in-out rounded-lg hover:border-primary ">
@@ -23,10 +20,10 @@ export const Comments = ({ studentName, dateAndTime, teacherName, commentData })
                 </div>
             </div>
 
-            <p className="mb-3">{commentData}</p>
+            <p className="mb-3">{comment}</p>
 
             <div className="text-sm mt-5 mb-2 flex justify-between font-bold text-gray-600 mr-5">
-                <p className="">{dateAndTime}</p>
+                <p className="">{date}</p>
                 <p className="">{teacherName}</p>
             </div>
         </div>
@@ -36,21 +33,19 @@ export const Comments = ({ studentName, dateAndTime, teacherName, commentData })
 
 
 export const AnonymousComment = ({ commentData }) => {
-    console.log("Data :     "+commentData);
     const [reported, setReported] = useState(false);
     const [showDialogueBox, setShowDialogueBox] = useState(false);
 
     if (!commentData) return null;
 
-    const handleReportClick = () => {
+    const handleReportClick = (e) => {
         setShowDialogueBox(true);
     };
 
-    const handleConfirmReport = () => {
+    const handleConfirmReport = async () => {
         setReported(true);
         setShowDialogueBox(false);
-        // Here you would typically call an API to report the comment
-        // For example: reportCommentToAPI(commentData.id);
+        await reportFeedback(commentData.id); 
     };
 
     const handleCancelReport = () => {

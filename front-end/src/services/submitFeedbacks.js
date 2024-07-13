@@ -1,3 +1,5 @@
+import { fetchStudentByOID } from "./fetchStudent";
+import { fetchTeacherByID_admin } from "./fetchTeachers";
 
 export const submitAllFeedbacks = async (feedbackArray) => {
 
@@ -38,6 +40,7 @@ export const submitAllFeedbacks = async (feedbackArray) => {
     }
 }
 
+// get the feedbacks to the techer from a particualr section
 export const fetchFeedbacksOfSection = async (teacherID, sectionID) => {
     try {
         const response = await fetch('http://localhost:3000/teacher/getFeedbacksBySection', {
@@ -92,6 +95,8 @@ export const fetchFeedbacksOfSection = async (teacherID, sectionID) => {
     }
 } 
 
+
+// get feedbacks of the particular teacher 
 export const fetchFeedbacks = async (teacherID )=>{
     try {
         const response = await fetch(`http://localhost:3000/teacher/getFeedbacks/${teacherID}`, {
@@ -108,3 +113,40 @@ export const fetchFeedbacks = async (teacherID )=>{
         console.log(error);
     }
 }
+
+// get the reported feedbacks => 
+export const getReportedFeedbacks = async ()=>{
+    try {
+        const response = await fetch('http://localhost:3000/admin/getReportedFeedbacks', {
+            method : 'GET',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            credentials : 'include'
+        });
+        if(!response.ok){
+            return [];
+        }
+        const data = await response.json(); 
+        
+        const feedbackArray = [];
+        for(let i = 0 ; i<data.length; i++){
+            const {createdAt , comment , student , teacher, _id} = data[i];
+            const date = new Date(createdAt).toDateString(); 
+            const studentResponse = await fetchStudentByOID(student); 
+            const teacherResponse = await fetchTeacherByID_admin(teacher); 
+            feedbackArray.push({
+                id : _id,
+                studentName : studentResponse.name ,  
+                teacherName : teacherResponse.name , 
+                comment : comment , 
+                date : date
+            })
+        }
+        return feedbackArray; 
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+// comment , createdAt , student , teacher 

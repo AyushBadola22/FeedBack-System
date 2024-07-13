@@ -10,7 +10,7 @@ export const AddSectionForm = ({ closeSectionModel, courses }) => {
 
     const [sectionData, setSectionData] = useState({
         sectionCode: "",
-        semester: 0,
+        semester: 1,
         courseId: ""
     });
 

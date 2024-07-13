@@ -18,3 +18,24 @@ export const fetchStudent = async (uid) => {
         throw error;
     }
 };
+
+
+export const fetchStudentByOID = async (id)=>{
+    try {
+        const response = await fetch(`http://localhost:3000/admin/getStudentByOID/${id}`, 
+            {
+                credentials : 'include', 
+                method : 'GET', 
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            }
+        )
+        if(response.ok){
+            return await response.json(); 
+        }
+        return {};
+    } catch (error) {
+        console.log(error);
+    }
+}

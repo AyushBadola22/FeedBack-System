@@ -130,6 +130,9 @@ export const AddStudentForm = ({ onCancel }) => {
         if (!studentData.section) {
             return setError({ status: true, message: 'No section selected.' });
         }
+        if(studentData.yearOfJoining > new Date().getFullYear()){
+            return setError({status : true , message : "Invalid year"}); 
+        }
         setError({ status: false, message: "" });
 
         try {

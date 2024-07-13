@@ -1,4 +1,4 @@
-import { act, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { NavBarTeacher } from "../components/navBarTeacher";
 import { FeedbackSummary,  } from "../components/feedbackSummary";
 import {Feedback } from '../components/reportedFeedback'
