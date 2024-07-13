@@ -5,6 +5,8 @@ import logo from '../assets/gehuLogo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import SyncLoader from "react-spinners/SyncLoader";
 import catImg from '../assets/cat2.jpeg'
+import config from '../config';
+
 
 export const LoginPage = () => {
     const [isLoading, setLoading] = useState(false);
@@ -43,7 +45,7 @@ export const LoginPage = () => {
         e.preventDefault();
         setError(false);
         try {
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch(`${config.API_BASE_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

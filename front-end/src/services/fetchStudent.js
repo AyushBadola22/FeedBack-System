@@ -1,6 +1,7 @@
+import config from '../config';
 export const fetchStudent = async (uid) => {
     try {
-        const response = await fetch(`http://localhost:3000/student/getStudentByID/${uid}`, {
+        const response = await fetch(`${config.API_BASE_URL}/student/getStudentByID/${uid}`, {
             method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',
@@ -22,7 +23,7 @@ export const fetchStudent = async (uid) => {
 
 export const fetchStudentByOID = async (id)=>{
     try {
-        const response = await fetch(`http://localhost:3000/admin/getStudentByOID/${id}`, 
+        const response = await fetch(`${config.API_BASE_URL}/admin/getStudentByOID/${id}`, 
             {
                 credentials : 'include', 
                 method : 'GET', 

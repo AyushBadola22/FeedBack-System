@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import config from '../config';
 
 
 export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
@@ -32,7 +33,7 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
         });
 
         try {
-            const response = await fetch(`http://localhost:3000/admin/${subjectData.courseID}/addSubject`, {
+            const response = await fetch(`${config.API_BASE_URL}/admin/${subjectData.courseID}/addSubject`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

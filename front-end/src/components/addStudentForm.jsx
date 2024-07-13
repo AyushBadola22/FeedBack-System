@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { fetchCourses } from '../services/fetchCourses';
+import config from '../config';
 
 export const AddStudentForm = ({ onCancel }) => {
     const [studentData, setStudentData] = useState({
@@ -86,7 +87,7 @@ export const AddStudentForm = ({ onCancel }) => {
         if (selectedCourse && selectedSemester) {
             const fetchSections = async () => {
                 try {
-                    const sectionsResponse = await fetch(`http://localhost:3000/admin/${selectedCourse.value}/getSections`, {
+                    const sectionsResponse = await fetch(`${config.API_BASE_URL}/admin/${selectedCourse.value}/getSections`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
@@ -136,7 +137,7 @@ export const AddStudentForm = ({ onCancel }) => {
         setError({ status: false, message: "" });
 
         try {
-            const response = await fetch(`http://localhost:3000/create/student`, {
+            const response = await fetch(`${config.API_BASE_URL}/create/student`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

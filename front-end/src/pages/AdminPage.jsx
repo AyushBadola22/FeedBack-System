@@ -15,6 +15,8 @@ import { AddStudentForm } from '../components/addStudentForm';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ReportedFeedback } from '../components/reportedFeedback';
 import {getReportedFeedbacks} from '../services/submitFeedbacks'
+import config from '../config';
+
 export const AdminPage = () => {
 
     const location = useLocation();
@@ -95,7 +97,7 @@ export const AdminPage = () => {
     const fetchStudents = async (courseID, year) => {
         if (!courseID || !year) return;
         try {
-            const response = await fetch(`http://localhost:3000/admin/getStudents/${courseID}/${year}`, {
+            const response = await fetch(`${config.API_BASE_URL}/admin/getStudents/${courseID}/${year}`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

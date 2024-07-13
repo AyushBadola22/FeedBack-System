@@ -1,12 +1,13 @@
 import { fetchStudentByOID } from "./fetchStudent";
 import { fetchTeacherByID_admin } from "./fetchTeachers";
+import config from '../config';
 
 export const submitAllFeedbacks = async (feedbackArray) => {
 
     for (const feedback of feedbackArray) {
         try {
             console.log(feedback);
-            const response = await fetch('http://localhost:3000/student/submitFeedback', {
+            const response = await fetch(`http://localhost:3000/student/submitFeedback`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -43,7 +44,7 @@ export const submitAllFeedbacks = async (feedbackArray) => {
 // get the feedbacks to the techer from a particualr section
 export const fetchFeedbacksOfSection = async (teacherID, sectionID) => {
     try {
-        const response = await fetch('http://localhost:3000/teacher/getFeedbacksBySection', {
+        const response = await fetch(`${config.API_BASE_URL}/teacher/getFeedbacksBySection`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -99,7 +100,7 @@ export const fetchFeedbacksOfSection = async (teacherID, sectionID) => {
 // get feedbacks of the particular teacher 
 export const fetchFeedbacks = async (teacherID )=>{
     try {
-        const response = await fetch(`http://localhost:3000/teacher/getFeedbacks/${teacherID}`, {
+        const response = await fetch(`${config.API_BASE_URL}/teacher/getFeedbacks/${teacherID}`, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json'
@@ -117,7 +118,7 @@ export const fetchFeedbacks = async (teacherID )=>{
 // get the reported feedbacks => 
 export const getReportedFeedbacks = async ()=>{
     try {
-        const response = await fetch('http://localhost:3000/admin/getReportedFeedbacks', {
+        const response = await fetch(`${config.API_BASE_URL}/admin/getReportedFeedbacks`, {
             method : 'GET',
             headers : {
                 'Content-Type' : 'application/json'

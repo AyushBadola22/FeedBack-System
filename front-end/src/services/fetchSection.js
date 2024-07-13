@@ -1,6 +1,7 @@
+import config from '../config';
 export const fetchSection = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/student/getSectionByID/${id}`, {
+        const response = await fetch(`${config.API_BASE_URL}/student/getSectionByID/${id}`, {
             method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',

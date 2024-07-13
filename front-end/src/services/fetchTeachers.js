@@ -1,6 +1,7 @@
+import config from '../config';
 export const fetchTeachers = async () => {
     try {
-        const response = await fetch('http://localhost:3000/admin/getTeachers', {
+        const response = await fetch(`${config.API_BASE_URL}/admin/getTeachers`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +24,7 @@ export const fetchTeachers = async () => {
 
 export const fetchTeachersByID = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/student/getTeacherByID/${id}`, {
+        const response = await fetch(`${config.API_BASE_URL}/student/getTeacherByID/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export const fetchTeachersByID = async (id) => {
 export const fetchTeachersOfCourse = async (id) => {
     try {
 
-        const response = await fetch(`http://localhost:3000/admin/getTeachersByCourse/${id}`, {
+        const response = await fetch(`${config.API_BASE_URL}/admin/getTeachersByCourse/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ export const fetchTeachersOfCourse = async (id) => {
 
 export const fetchTeachersByUID = async (uid) => {
     try {
-        const response = await fetch(`http://localhost:3000/teacher/getTeacherByUID/${uid}`, {
+        const response = await fetch(`${config.API_BASE_URL}/teacher/getTeacherByUID/${uid}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ export const fetchTeachersByUID = async (uid) => {
 
 export const fetchTeacherByID_admin = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3000/admin/getTeacher/${id}`, {
+        const response = await fetch(`${config.API_BASE_URL}/admin/getTeacher/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

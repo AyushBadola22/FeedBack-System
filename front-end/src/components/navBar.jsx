@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { FaUsers, FaUserGraduate, FaChalkboardTeacher, FaBook } from 'react-icons/fa';
+import config from '../config';
 
 
 export const NavBar = ({ setActiveTab, activeTab }) => {
     const navigate = useNavigate();
     const logout = async ()=>{
         console.log('logging out');
-        const response = await fetch('http://localhost:3000/logout', {
+        const response = await fetch(`${config.API_BASE_URL}/logout`, {
             credentials : 'include', 
             method : "GET", 
             headers : {

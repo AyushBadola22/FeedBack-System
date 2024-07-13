@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import  { useState } from 'react';
+import config from '../config';
 export const AddCourseForm = ({closeModel}) => {
     const [errorOccured , setError] = useState({
         errorStatus : false, 
@@ -35,7 +35,7 @@ export const AddCourseForm = ({closeModel}) => {
             return; 
         }
         try {
-            const response = await fetch('http://localhost:3000/admin/addCourse',{
+            const response = await fetch(`${config.API_BASE_URL}/admin/addCourse`,{
                 method : 'POST', 
                 headers : {
                     'Content-Type' : 'application/json'

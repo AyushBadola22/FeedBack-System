@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { fetchStudent } from '../services/fetchStudent';
 import { fetchSection } from '../services/fetchSection';
 
-
 /* // TODO : Use location to take the cookie data 
 
 */

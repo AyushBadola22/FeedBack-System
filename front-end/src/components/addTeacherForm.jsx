@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import config from '../config';
 
 
 export const AddTeacherForm = ({ courses, onCancel }) => {
@@ -67,7 +68,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
         setError({ status: false, message: "" });
         console.log(teacherData);
         try {
-            const response = await fetch(`http://localhost:3000/create/teacher`, {
+            const response = await fetch(`${config.API_BASE_URL}/create/teacher`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -111,7 +112,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
             const fetchData = async () => {
                 try {
                     const courseID = selectedCourse.value;
-                    const sectionsResponse = await fetch(`http://localhost:3000/admin/${courseID}/getSections`, {
+                    const sectionsResponse = await fetch(`${config.API_BASE_URL}/admin/${courseID}/getSections`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
@@ -120,7 +121,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                     });
 
 
-                    const subjectsResponse = await fetch(`http://localhost:3000/admin/${courseID}/getSubjects`, {
+                    const subjectsResponse = await fetch(`${config.API_BASE_URL}/admin/${courseID}/getSubjects`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"

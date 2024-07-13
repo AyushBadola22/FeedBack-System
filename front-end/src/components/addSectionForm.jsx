@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
+import config from '../config';
 
 
 export const AddSectionForm = ({ closeSectionModel, courses }) => {
@@ -31,7 +32,7 @@ export const AddSectionForm = ({ closeSectionModel, courses }) => {
         });
 
         try {
-            const response = await fetch(`http://localhost:3000/admin/${sectionData.courseId}/addSection`, {
+            const response = await fetch(`${config.API_BASE_URL}/admin/${sectionData.courseId}/addSection`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
