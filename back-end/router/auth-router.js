@@ -12,7 +12,6 @@ router.route('/logout').get( async (req , res)=>{
         console.log(error.message);
         res.status(500).json({message : "Internal error : "+error.message})
     }
- 
 }); 
 
 export default router;

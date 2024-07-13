@@ -19,6 +19,7 @@ export const getStudents = async (req, res) => {
     }
 }; 
 
+// by uid
 export const getStudentByID = async (req, res) => {
     try {
         const {uid} = req.params;
@@ -35,3 +36,18 @@ export const getStudentByID = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }; 
+
+export const getStudentByOID = async (req, res)=>{
+    try {
+        console.log('Finding the student here');
+        const {id} = req.params; 
+
+        const student = await Student.findById(id); 
+        if(!student){
+            return res.status(404).json({message : "Student not found"}); 
+        }
+        res.status(200).json({name : student.name, uid : student.uid}); 
+    } catch (error) {
+        res.status(500).json("Internal error"); 
+    }
+}

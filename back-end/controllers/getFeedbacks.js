@@ -22,7 +22,7 @@ export const getFeedbacks = async (req, res) => {
 
 export const getReportedFeedback = async (req, res) => {
     try {
-        const feedbacks = await FeedBack.find({status : 'reviewed'}); 
+        const feedbacks = await FeedBack.find({status : 'reported'}); 
         res.status(200).json(feedbacks); 
     } catch (error) {
         console.error("Error getting feedbacks:", error);
