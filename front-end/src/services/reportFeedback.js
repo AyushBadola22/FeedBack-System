@@ -1,6 +1,6 @@
 export const reportFeedback = async (feedbackID)=>{
     try {
-        const response = await fetch('http://localhost:3000/teacher/report', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/teacher/report`, {
             credentials : 'include', 
             method : "POST", 
             headers : {

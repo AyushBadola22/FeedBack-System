@@ -4,7 +4,7 @@ export const NavBarTeacher = ({ setActiveTab, activeTab }) => {
     const navigate = useNavigate();
     const logout = async ()=>{
         console.log('logging out');
-        const response = await fetch('http://localhost:3000/logout', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/logout`, {
             credentials : 'include', 
             method : "GET", 
             headers : {

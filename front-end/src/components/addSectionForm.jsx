@@ -31,7 +31,7 @@ export const AddSectionForm = ({ closeSectionModel, courses }) => {
         });
 
         try {
-            const response = await fetch(`http://localhost:3000/admin/${sectionData.courseId}/addSection`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/admin/${sectionData.courseId}/addSection`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

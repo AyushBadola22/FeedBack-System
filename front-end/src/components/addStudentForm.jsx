@@ -86,7 +86,7 @@ export const AddStudentForm = ({ onCancel }) => {
         if (selectedCourse && selectedSemester) {
             const fetchSections = async () => {
                 try {
-                    const sectionsResponse = await fetch(`http://localhost:3000/admin/${selectedCourse.value}/getSections`, {
+                    const sectionsResponse = await fetch(`${import.meta.env.VITE_SERVER}/admin/${selectedCourse.value}/getSections`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
@@ -136,7 +136,7 @@ export const AddStudentForm = ({ onCancel }) => {
         setError({ status: false, message: "" });
 
         try {
-            const response = await fetch(`http://localhost:3000/create/student`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/create/student`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

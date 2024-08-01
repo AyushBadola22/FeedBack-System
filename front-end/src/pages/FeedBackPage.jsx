@@ -121,7 +121,7 @@ export const FeedbackPage = () => {
         }
 
         const feedbackGiven = async (id) => {
-            const response = await fetch(`http://localhost:3000/student/feedbackGIven/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/student/feedbackGIven/${id}`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -187,7 +187,7 @@ export const FeedbackPage = () => {
 
 
     const handleLogOut = async (e) => {
-        const response = await fetch('http://localhost:3000/logout', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/logout`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

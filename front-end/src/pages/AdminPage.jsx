@@ -95,7 +95,7 @@ export const AdminPage = () => {
     const fetchStudents = async (courseID, year) => {
         if (!courseID || !year) return;
         try {
-            const response = await fetch(`http://localhost:3000/admin/getStudents/${courseID}/${year}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/admin/getStudents/${courseID}/${year}`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
