@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import config from '../config';
 
 
 export const AddTeacherForm = ({ courses, onCancel }) => {

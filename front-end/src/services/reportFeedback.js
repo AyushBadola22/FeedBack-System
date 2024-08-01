@@ -1,7 +1,6 @@
-import config from '../config';
 export const reportFeedback = async (feedbackID)=>{
     try {
-        const response = await fetch(`${config.API_BASE_URL}/teacher/report`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/teacher/report`, {
             credentials : 'include', 
             method : "POST", 
             headers : {

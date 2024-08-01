@@ -5,7 +5,6 @@ import logo from '../assets/gehuLogo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import SyncLoader from "react-spinners/SyncLoader";
 import catImg from '../assets/cat2.jpeg'
-import config from '../config';
 
 
 export const LoginPage = () => {
@@ -45,7 +44,7 @@ export const LoginPage = () => {
         e.preventDefault();
         setError(false);
         try {
-            const response = await fetch(`${config.API_BASE_URL}/login`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

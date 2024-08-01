@@ -1,7 +1,6 @@
-import config from '../config';
 export const fetchSection = async (id) => {
     try {
-        const response = await fetch(`${config.API_BASE_URL}/student/getSectionByID/${id}`, {
+        const response = await fetch(`h${import.meta.env.VITE_SERVER}/student/getSectionByID/${id}`, {
             method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',

@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import config from '../config';
 
 export const NavBarTeacher = ({ setActiveTab, activeTab }) => {
     const navigate = useNavigate();
     const logout = async ()=>{
         console.log('logging out');
-        const response = await fetch(`${config.API_BASE_URL}/logout`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/logout`, {
             credentials : 'include', 
             method : "GET", 
             headers : {

@@ -1,8 +1,7 @@
-import config from '../config';
 
 export const fetchCourses = async () => {
     try {
-        const response = await fetch(`${config.API_BASE_URL}/admin/allCourses`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/admin/allCourses`, {
             method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',

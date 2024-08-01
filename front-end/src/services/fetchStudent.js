@@ -1,7 +1,6 @@
-import config from '../config';
 export const fetchStudent = async (uid) => {
     try {
-        const response = await fetch(`${config.API_BASE_URL}/student/getStudentByID/${uid}`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/student/getStudentByID/${uid}`, {
             method : 'GET', 
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +22,7 @@ export const fetchStudent = async (uid) => {
 
 export const fetchStudentByOID = async (id)=>{
     try {
-        const response = await fetch(`${config.API_BASE_URL}/admin/getStudentByOID/${id}`, 
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/admin/getStudentByOID/${id}`, 
             {
                 credentials : 'include', 
                 method : 'GET', 

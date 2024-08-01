@@ -5,7 +5,6 @@ import { StarRating } from '../components/StarRating';
 import { fetchTeachersByID } from '../services/fetchTeachers';
 import catImg from '../assets/cat3.jpeg'
 import { submitAllFeedbacks } from '../services/submitFeedbacks';
-import config from '../config';
 
 
 
@@ -122,7 +121,7 @@ export const FeedbackPage = () => {
         }
 
         const feedbackGiven = async (id) => {
-            const response = await fetch(`${config.API_BASE_URL}/student/feedbackGIven/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/student/feedbackGIven/${id}`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -188,7 +187,7 @@ export const FeedbackPage = () => {
 
 
     const handleLogOut = async (e) => {
-        const response = await fetch(`${config.API_BASE_URL}/logout`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER}/logout`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

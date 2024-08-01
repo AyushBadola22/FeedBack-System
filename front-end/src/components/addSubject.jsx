@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import config from '../config';
 
 
 export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
@@ -33,7 +32,7 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
         });
 
         try {
-            const response = await fetch(`${config.API_BASE_URL}/admin/${subjectData.courseID}/addSubject`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/admin/${subjectData.courseID}/addSubject`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
