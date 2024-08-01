@@ -41,8 +41,9 @@ export const loginController = async (req, res) => {
             res.cookie("token", token, {
                 expires: new Date(Date.now() + 1000*60*60),
                 httpOnly: true,
-                sameSite: 'None', 
-                secure: true 
+                secure: true,
+                sameSite: 'None',
+                domain: '.onrender.com'  
             });
 
             res.status(200).json({
