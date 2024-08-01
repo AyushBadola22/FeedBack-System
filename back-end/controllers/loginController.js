@@ -38,13 +38,12 @@ export const loginController = async (req, res) => {
             console.log('successful login');
             let token = await user.generateToken();
             
-            res.cookie('token', token, {
-                expires : new Date(Date.now() + 1000*60*60), 
+            res.cookie("token", token, {
+                expires: new Date(Date.now() + 1000*60*60),
                 httpOnly: true,
-                secure: true,
-                sameSite: 'none',
-                domain: '.onrender.com'
-              });
+                sameSite: 'None', 
+                secure: true 
+            });
 
             res.status(200).json({
                 message : "Login Successful", 
