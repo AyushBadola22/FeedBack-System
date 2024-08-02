@@ -20,7 +20,13 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://feed-back-system-gehu.vercel.app', 
+  methods: 'GET, POST, PUT, PATCH, DELETE',
+  credentials: true 
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use('/create',  createUser); 
