@@ -20,12 +20,7 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 3000;
 
-const corsOptions = {
-    origin: 'https://feed-back-system-nxk6vkp6f-ayush-s-projects-8e7bf54a.vercel.app',
-    methods: 'GET, POST, PUT, PATCH, HEAD',
-    credentials: true
-}
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser());
 
 app.use('/create',  createUser); 
