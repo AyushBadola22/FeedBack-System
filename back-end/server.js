@@ -36,6 +36,6 @@ app.use('/', authRouter);
 
 connectDB().then(()=>{
     app.listen(PORT, ()=>{
-        console.log("Server running");
+        res.send("Server running");
     })
 }); 
