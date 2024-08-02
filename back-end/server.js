@@ -21,7 +21,7 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-    origin: 'https://feedback-system-front-end.onrender.com',
+    origin: 'https://feed-back-system-nxk6vkp6f-ayush-s-projects-8e7bf54a.vercel.app',
     methods: 'GET, POST, PUT, PATCH, HEAD',
     credentials: true
 }
