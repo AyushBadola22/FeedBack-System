@@ -7,6 +7,7 @@ import Student from "../model/studentModel.js";
 
 export const loginController = async (req, res) => {
     const { uid, password } = req.body;
+    console.log(uid , password);
     try {
         let user;
         let prefix = String(uid);
