@@ -3,9 +3,11 @@ import Course from "../model/courseModel.js";
 import Subject from "../model/subjectSchema.js";
 
 export const addSubjectToCourse = async (req, res) => {
+    
     const { subjectName, code, semester } = req.body;
     const { courseID } = req.params;
 
+    
 
     if (!mongoose.Types.ObjectId.isValid(courseID)) {
         return res.status(400).json({ message: "Invalid Course ID format." });
@@ -28,7 +30,7 @@ export const addSubjectToCourse = async (req, res) => {
 
         const subjectExists = await Subject.findOne({ $or: [{ code }, { subjectName }] });
         if (subjectExists) {
-            return res.status(400).json({ message: "Subject with this name or code already exists" });
+            return res.status(400).json({ message: "Subject with same code already exists" });
         }
 
 
@@ -38,6 +40,7 @@ export const addSubjectToCourse = async (req, res) => {
         if (!course.subjects) {
             course.subjects = [];
         }
+
         course.subjects.push(newSubject._id);
         await course.save();
 

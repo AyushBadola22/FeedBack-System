@@ -20,16 +20,21 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 3000;
 
-const corsOptions = {
-    origin: 'https://feed-back-system-nxk6vkp6f-ayush-s-projects-8e7bf54a.vercel.app',
-    methods: 'GET, POST, PUT, PATCH, HEAD',
-    credentials: true
-}
-app.use(cors(corsOptions));
+// const corsOptions = {
+//     origin: process.env.BASE_URL_CLIENT,
+//     // origin: 'https://feed-back-system-nxk6vkp6f-ayush-s-projects-8e7bf54a.vercel.app',
+//     methods: 'GET, POST, PUT, PATCH, HEAD',
+//     credentials: true
+// }   during deploying specify from where it can accept request or send one 
+
+app.use(cors({
+    origin : 'http://localhost:5173',
+    credentials : true
+}));
 app.use(cookieParser());
 
 app.use('/create',  createUser); 
-app.use('/admin', isLoggedIn, adminRouter);
+app.use('/admin', adminRouter);
 app.use('/teacher', isLoggedIn , teacherRouter)
 app.use('/student', isLoggedIn, studentRouter) 
 app.use('/', authRouter);

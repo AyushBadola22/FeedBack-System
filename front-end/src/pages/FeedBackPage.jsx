@@ -91,6 +91,8 @@ export const FeedbackPage = () => {
                 navigate('/login')
                 return;
             }
+            console.log("student data : "+studentData);
+            
 
             const studentID = studentData.student;
             const submitted = await feedbackGiven(studentID);

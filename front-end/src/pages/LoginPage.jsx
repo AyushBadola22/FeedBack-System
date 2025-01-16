@@ -64,6 +64,7 @@ export const LoginPage = () => {
             if (data.role === 'superadmin' || data.role === 'admin')
                 navigate('/admin', { state: { uid, role } })
             else if (data.role === 'student') {
+                console.log("data", data);
                 navigate(`/instructions/${user.uid}`, { state: { uid, role } });
             }
             else {

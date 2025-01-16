@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import config from '../config';
 
 
 export const AddTeacherForm = ({ courses, onCancel }) => {
@@ -13,6 +14,14 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
         sections: [] ,
         courseID : ""
     });
+
+    try {
+        console.log(config.API_BASE_URL);
+        
+    } catch (error) {
+        console.log(error.message);
+        
+    }
 
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [availableSections, setAvailableSections] = useState([]);
@@ -67,7 +76,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
         setError({ status: false, message: "" });
         console.log(teacherData);
         try {
-            const response = await fetch(`${config.API_BASE_URL}/create/teacher`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/create/teacher`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -110,8 +119,10 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
         if (selectedCourse) {
             const fetchData = async () => {
                 try {
+                  
+                    
                     const courseID = selectedCourse.value;
-                    const sectionsResponse = await fetch(`${config.API_BASE_URL}/admin/${courseID}/getSections`, {
+                    const sectionsResponse = await fetch(`${import.meta.env.VITE_SERVER}/admin/${courseID}/getSections`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
@@ -120,7 +131,7 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                     });
 
 
-                    const subjectsResponse = await fetch(`${config.API_BASE_URL}/admin/${courseID}/getSubjects`, {
+                    const subjectsResponse = await fetch(`${import.meta.env.VITE_SERVER}/admin/${courseID}/getSubjects`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': "application/json"
@@ -147,6 +158,11 @@ export const AddTeacherForm = ({ courses, onCancel }) => {
                         sectionList.sort((a, b) => a.label.localeCompare(b.label));
                         setAvailableSections(sectionList)
                     }
+
+                    console.log(sectionsData);
+                    console.log(selectedCourse);
+                    
+                    
 
                     if (!subjectsData.subjects || !Array.isArray(subjectsData.subjects)) {
                         console.log('Invalid subjects data:', subjectsData);

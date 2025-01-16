@@ -25,7 +25,6 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log("Subject data : "+JSON.stringify(subjectData));
         setErrorOccured({
             errorStatus: false,
             message: ""
@@ -46,7 +45,6 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
                 })
             });
 
-
             if (!response.ok) {
                 const errorData = await response.json();
                 setErrorOccured({
@@ -54,14 +52,14 @@ export const AddSubjectForm = ({ closeSubjectModel, courses }) => {
                     message: errorData.message
                 });
             } else {
-                closeSubjectModel();
+                closeSubjectModel(); 
             }
         } catch (error) {
             setErrorOccured({
                 errorStatus: true,
-                message: "Failed to add section. Please try again."
+                message: "Failed to add subject. Please try again."
             });
-            console.error('Error adding section:', error);
+            console.error('Error adding subject:', error);
         }
     };
 

@@ -39,7 +39,7 @@ export const createAdmin = async(req , res) =>{
         return res.status(400).json({message : "You are not authorized to add another admin."}); 
     }
 
-
+    
     const {name , email, password , role} = req.body; 
     try{
         const existingAdmin = await Admin.findOne({email}); 
